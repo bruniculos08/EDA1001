@@ -64,14 +64,23 @@ void imprimeTodos(Funcionario vetor[]){
     }
 }
 
-Funcionario incluiFuncionario(Funcionario vetor[]){
-    Funcionario novoFuncionario;
-    printf("Type the name of the new employee: ");
-    scanf("%s", &novoFuncionario.nome);
-    printf("Type the wage of the new employee %i: ");
-    scanf("%lf", &novoFuncionario.salario);
-    printf("Type the code of the new employee %i: ");
-    scanf("%i", &novoFuncionario.codigo);
+void inserirFuncionario(Funcionario *vetor) {
+    int N = sizeof(*vetor)/sizeof(Funcionario) + 1;
+    Funcionario *novoVetor;
+    novoVetor = malloc(N*sizeof(Funcionario));
+    for (int i = 0; i < N-1; i++) novoVetor[i] = vetor[i];
+    
+    printf("Type the wage of the employee %i: ", N-1);
+    scanf("%lf", &(novoVetor+N-1)->salario);
+                    
+    printf("Type the code of the employee %i: ", N-1);
+    scanf("%i", &(novoVetor+N-1)->codigo);
+                    
+    printf("Type the name of the employee %i: ", N-1);
+    scanf("%s", (novoVetor+N-1)->nome);
+
+    vetor = malloc(N*sizeof(Funcionario));
+    *vetor = *novoVetor;
 }
 
 int main(){
@@ -101,12 +110,12 @@ int main(){
                 imprimeTodos(vetor);
                 continue;
             case 6:
-                incluiFuncionario(vetor);
+                inserirFuncionario(vetor);
                 continue;
             case 7:
                 if (flag == 0)
                 {
-                    printf("You already have typed the vector");
+                    printf("You already have created the vector. To include or remove choose the options 6 and 8 respectively.\n");
                     continue;
                 }
                 int N; 
@@ -125,7 +134,7 @@ int main(){
                 }
                 flag = 0;
             case 8:
-                
+
             default:
                 printf("This option does not exist. Type a valid option.\n");
                 break;
