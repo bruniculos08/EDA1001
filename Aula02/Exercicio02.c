@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef struct funcionario {
     double salario;
@@ -75,11 +76,12 @@ Funcionario incluiFuncionario(Funcionario vetor[]){
 
 int main(){
     Funcionario *vetor;
-    int option, position;
+    int option, flag = 1, position;
     double average;
     do {
-        printf("Choose an option:\n[0] Exit\n[1] return the vector position of the employee with the biggest wage\n[2] return the vector position of the employee with the smallest wage\n[3] print the date of the employee acording to his position in the vector\n[4] return the average wage of the employees\n[5] print the data of all the employees\n");
+        printf("Choose an option:\n[0] Exit\n[1] return the vector position of the employee with the biggest wage\n[2] return the vector position of the employee with the smallest wage\n[3] print the date of the employee acording to his position in the vector\n[4] return the average wage of the employees\n[5] print the data of all the employees\n[6] include new employee\n[7] insert employees into the vector\n");
         scanf("%d", &option);
+        
         switch(option) {
             case 0: 
                 break;
@@ -101,6 +103,34 @@ int main(){
             case 6:
                 incluiFuncionario(vetor);
                 continue;
+            case 7:
+                if (flag == 0)
+                {
+                    printf("You already have typed the vector");
+                    continue;
+                }
+                
+                int N; 
+
+                printf("Type the number of employees in the vector\n");
+                scanf("%i", &N);
+
+                vetor = malloc(N*sizeof(Funcionario));
+                
+                for (int i = 0; i < N; i++){
+                    printf("Type the wage of the employee %i: ", i);
+                    scanf("%lf", &(vetor+i)->salario);
+                    printf("Type the code of the employee %i: ", i);
+                    scanf("%i", &(vetor+i)->codigo);
+                    printf("Type the name of the employee %i: ", i);
+                    //fflush(stdin);                                      //* limpa o buffer do teclado(stdin)
+                    //fgets(vetor[i].nome, sizeof(vetor[i].nome), stdin); //* fgets(ponteiro da variável, tamanho máximo, origem)
+                    scanf("%s", &(vetor+i)->nome);                      //* stdin se refere ao teclado
+                }
+                flag = 0;
+            default:
+                printf("This option does not exist. Type a valid option.\n");
+                break;
         }
     } while(option != 0);
 }
