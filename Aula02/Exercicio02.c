@@ -109,14 +109,10 @@ int main(){
                     printf("You already have typed the vector");
                     continue;
                 }
-                
                 int N; 
-
                 printf("Type the number of employees in the vector\n");
                 scanf("%i", &N);
-
                 vetor = malloc(N*sizeof(Funcionario));
-                
                 for (int i = 0; i < N; i++){
                     printf("Type the wage of the employee %i: ", i);
                     scanf("%lf", &(vetor+i)->salario);
@@ -125,9 +121,11 @@ int main(){
                     printf("Type the name of the employee %i: ", i);
                     //fflush(stdin);                                      //* limpa o buffer do teclado(stdin)
                     //fgets(vetor[i].nome, sizeof(vetor[i].nome), stdin); //* fgets(ponteiro da variável, tamanho máximo, origem)
-                    scanf("%s", &(vetor+i)->nome);                      //* stdin se refere ao teclado
+                    scanf("%s", &(vetor+i)->nome);                        //* stdin se refere ao teclado
                 }
                 flag = 0;
+            case 8:
+                
             default:
                 printf("This option does not exist. Type a valid option.\n");
                 break;
