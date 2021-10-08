@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-int *vector;
+int *vetor;
+int n;
 
-void aumentaVetor(int *vetor){
-    int n = sizeof(*vetor)/sizeof(int) + 1;
+void aumentaVetor(){
+    n = n+1;
     vetor = realloc(vetor, n*sizeof(int));
-    scanf("%d", &vetor[n]);
+    scanf("%d", &vetor[n-1]);
 }
 
-void diminuiVetor(int *vetor, int position){
+void diminuiVetor(int position){
 
 }
 
-void imprimeVetor(int *vetor){
-    for (int i = 0; i < sizeof(*vetor); i++)
+void imprimeVetor(){
+    for (int i = 0; i < n; i++)
     {
         printf("%d ", vetor[i]);
     }
@@ -22,11 +23,11 @@ void imprimeVetor(int *vetor){
 }
 
 int main(){
-    
     int tamanhoInicial, option, position = 0;
     printf("Type the inicial size: ");
     scanf("%d", &tamanhoInicial);
-    int vetor[tamanhoInicial];
+    n = tamanhoInicial;
+    vetor = malloc(tamanhoInicial*sizeof(int));
 
     for (int i = 0; i < tamanhoInicial; i++){
         scanf("%d", &vetor[i]);
@@ -38,13 +39,13 @@ int main(){
 
         switch(option) {
             case 1:
-                aumentaVetor(vetor);
+                aumentaVetor();
                 continue;
             case 2:
-                diminuiVetor(vetor, position);
+                diminuiVetor(position);
                 continue;
             case 3:
-                imprimeVetor(vetor);
+                imprimeVetor();
                 continue;
             case 0:
                 break;
