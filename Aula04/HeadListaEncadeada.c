@@ -1,14 +1,8 @@
-//* Listas simplemente encadeadas
 #include <stdio.h>
 #include <stdlib.h>
 #include "HeadListaEncadeada.h"
-/*
-typedef struct Lista lista;
 
-struct Lista {
-    int number;       //^ o que a lista armazena
-    lista *next;       //^ ponteiro para o próximo elemento da lista 
-};
+
 
 lista *newList(int n){ //^ retorna o endereço de um novo elemento da lista (new)
     lista *new;
@@ -16,7 +10,7 @@ lista *newList(int n){ //^ retorna o endereço de um novo elemento da lista (new
     new->number = n;
     new->next = NULL;
     return new;       //^ retorna o endereço de um novo elemento da lista (new)                                            
-}   
+} 
 
 lista *insertEnd(lista *totalList, lista *newList){ //^ iremos retornar o endereço da própria lista por garantia
     lista *p;
@@ -98,32 +92,4 @@ int tamanhoLista(lista *totalList) {
         p = p->next;
     }
     return n;
-}
-*/
-int main() {
-    lista *totalList;
-    totalList = (lista *)malloc(sizeof(lista));
-
-    totalList->number = 2;
-    totalList->next = NULL;
-
-    totalList = insertEnd(totalList, newList(3));
-
-    printAllList(totalList);
-    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
-
-    totalList = insertStart(totalList, newList(1));
-
-    printAllList(totalList);
-    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
-
-    totalList = insertOrder(totalList, newList(5));
-    printAllList(totalList);
-    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
-
-    totalList = insertOrder(totalList, newList(4));
-    printAllList(totalList);
-    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
-
-    printf("position number 4 = %i", posiList(totalList, 4));
 }
