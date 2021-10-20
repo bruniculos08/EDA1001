@@ -1,26 +1,30 @@
 //* Listas simplemente encadeadas
 #include <stdio.h>
+#include <stdlib.h>
 
-typedef struct List {
+typedef struct Lista lista;
+
+struct Lista {
     int number;       //^ o que a lista armazena
-    list *next;       //^ ponteiro para o próximo elemento da lista 
-} list;
+    lista *next;       //^ ponteiro para o próximo elemento da lista 
+};
 
-list *newList(int n){ //^ retorna o endereço de um novo elemento da lista (new)
-    list *new;
-    new = (list *)malloc(sizeof(list)); //^ new se torna endereço de uma memória alocada
+lista *newList(int n){ //^ retorna o endereço de um novo elemento da lista (new)
+    lista *new;
+    new = (lista *)malloc(sizeof(lista)); //^ new se torna endereço de uma memória alocada
     new->number = n;
     new->next = NULL;
     return new;       //^ retorna o endereço de um novo elemento da lista (new)                                            
 }   
 
-list *addList(list *totalList, list *newList){ //^ iremos retornar o endereço da própria lista por garantia
-    list *p;
+lista *insertEnd(lista *totalList, lista *newList){ //^ iremos retornar o endereço da própria lista por garantia
+    lista *p;
     p = totalList;
     if (totalList != NULL)
     {
-        while (p != NULL){
-            p = totalList->next;
+        while (p->next != NULL){    //todo: perguntar por que quando usa-se p != NULL e após o while
+                                    //todo: usa-se p = newList há erro
+            p = p->next;
             //^ Note que há a atribuição entre uma varíavel que guarda um endereço (p)
             //^ e uma que "guarda" um conteúdo (totalList->next) que é possível
             //^ pois este conteúdo armazenado é um endereço (next é um endereço,...
@@ -40,6 +44,88 @@ list *addList(list *totalList, list *newList){ //^ iremos retornar o endereço d
     //^ retorna o endereço da própria lista para garantia
 }
 
-int main(void) {
+lista *insertOrder(lista *totalList, lista *newList) {
+    lista *p1;
+    p1 = totalList;
+
+    while (p1 != NULL){
+        if (p1->number < newList->number && p1->next == NULL){
+            p1->next = newList;
+            return totalList;
+        }
+        else if (p1->number < newList->number && p1->next->number > newList->number){
+            newList->next = p1->next;
+            p1->next = newList;
+            return totalList;
+        } 
+        p1 = p1->next; 
+    };
+
+    return newList; //^ se a lista estiver vazia irá retornar uma lista com apenas o novo elemento
+}
+
+lista *insertStart(lista *totalList, lista *newList) {
+    newList->next = totalList;
+    return newList;
+}
+
+int posiList (lista *totalList, int n){
+    lista *p = totalList;
+    int position = 0;
+    while(p->next != NULL){
+        position = position + 1;
+        p = p->next;
+    }
+    return position;
+
+}
+
+void printAllList(lista *totalList) {
+    lista *p;
+    p = totalList;
+    while (p != NULL) {
+        printf("%d-", p->number);
+        p = p->next;
+    };
+    
+}
+
+int tamanhoLista(lista *totalList) {
+    int n = 0;
+    lista *p;
+    p = totalList;
+    while (p != NULL) {
+        n = n + 1;
+        p = p->next;
+    }
+    return n;
+}
+
+int main() {
+    lista *totalList;
+    totalList = (lista *)malloc(sizeof(lista));
+
+    totalList->number = 2;
+    totalList->next = NULL;
+
+    totalList = insertEnd(totalList, newList(3));
+
+    printAllList(totalList);
+    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
+
+    totalList = insertStart(totalList, newList(1));
+
+    printAllList(totalList);
+    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
+
+    totalList = insertOrder(totalList, newList(5));
+    printAllList(totalList);
+    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
+
+    totalList = insertOrder(totalList, newList(4));
+    printAllList(totalList);
+    printf("\ntamanho da lista = %i\n", tamanhoLista(totalList));
+
+    printf("position number 4 = %i", posiList(totalList, 4));
 
 }
