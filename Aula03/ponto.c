@@ -12,7 +12,7 @@ struct ponto {
 Ponto* cria (float x, float y) {
 	Ponto* p = (Ponto*) malloc(sizeof(Ponto));
 	if (p == NULL) {
-		printf("Mem�ria insuficiente!\n");
+		printf("Memória insuficiente!\n");
 		exit(1);
 	}
 	p->x = x;
