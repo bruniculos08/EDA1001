@@ -4,6 +4,7 @@ struct Lista {
     lista *next;        //^ ponteiro para o próximo elemento da lista 
 };
 
+lista *removeLista(lista *totalList, int n);
 lista *newList(int n);
 lista *insertEnd(lista *totalList, lista *newList);
 lista *insertOrder(lista *totalList, lista *newList);

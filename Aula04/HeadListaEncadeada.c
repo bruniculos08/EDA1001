@@ -14,6 +14,7 @@ lista *newList(int n){ //^ retorna o endereço de um novo elemento da lista (new
 
 lista *insertEnd(lista *totalList, lista *newList){ //^ iremos retornar o endereço da própria lista por garantia
     lista *p;
+    lista *a;
     p = totalList;
     if (totalList != NULL)
     {
@@ -41,18 +42,25 @@ lista *insertEnd(lista *totalList, lista *newList){ //^ iremos retornar o endere
 
 lista *insertOrder(lista *totalList, lista *newList) {
     lista *p1;
+    lista *a;
     p1 = totalList;
+    a = NULL;
 
     while (p1 != NULL){
-        if (p1->number < newList->number && p1->next == NULL){
+        if (p1->number <= newList->number && p1->next == NULL){ //^ fim da lista
+
             p1->next = newList;
             return totalList;
         }
-        else if (p1->number < newList->number && p1->next->number > newList->number){
+        else if (p1->number <= newList->number && p1->next->number >= newList->number){ //^entre dois termos
             newList->next = p1->next;
             p1->next = newList;
             return totalList;
-        } 
+        }
+        else if (p1->number >= newList->number && a == NULL){ 
+            newList->next = p1;
+        }
+        a = p1;
         p1 = p1->next; 
     };
 
@@ -64,14 +72,37 @@ lista *insertStart(lista *totalList, lista *newList) {
     return newList;
 }
 
+lista *removeLista(lista *totalList, int n){
+    lista *p = totalList;
+    lista *a;
+    a = NULL;
+    while(p->next != NULL && p->number != n){
+        a = p;
+        p = p->next;
+    }
+    if (a == NULL){
+        a = p;
+        p = p->next;
+        free(a);
+        return p;
+    }
+    else {
+        a->next = p->next;
+        free(p);
+        return totalList;
+    }
+}
+
 int posiList (lista *totalList, int n){
     lista *p = totalList;
     int position = 0;
-    while(p->next != NULL){
+    while(p->next != NULL && p->number != n){
         position = position + 1;
         p = p->next;
     }
-    return position;
+    if (p->next == NULL && p->number != n) return -1; //^ número não encontrado
+    
+    return position+1;
 }
 
 void printAllList(lista *totalList) {
