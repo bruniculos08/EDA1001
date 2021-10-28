@@ -6,6 +6,7 @@ struct reg{
 };
 
 nodo * insere_fim(nodo *l, int valor);
+nodo * insere_ordenado(nodo *l, int valor);
 int profundidade(nodo *l, int valor);
 void imprime_lista(nodo *l);
 nodo * inicializa();

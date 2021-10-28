@@ -9,16 +9,35 @@ nodo * insere_fim(nodo *l, int valor){
     p = l;
     new->dado = valor;
     new->prox = NULL;
-    if (p == NULL)
-    {
-        p = new;
-        return p;
-    }
-    
+    if (p == NULL) return new;
     while(p->prox != NULL){
         p = p->prox;
     }
     p->prox = new;
+    return l;
+}
+
+nodo * insere_ordenado(nodo *l, int valor){
+    nodo *p;
+    nodo *newNode;
+    newNode = (nodo *)malloc(sizeof(nodo));
+    p = l;
+    newNode->dado = valor;
+    newNode->prox = NULL;
+    if (p == NULL) return newNode;
+    if (p->dado >= newNode->dado){
+        newNode->prox = p;
+        return newNode;
+    }
+    while(p->prox != NULL){
+        if(p->dado <= newNode->dado && p->prox->dado >= newNode->dado){
+            newNode->prox = p->prox;
+            p->prox = newNode;
+            return l;
+        }
+        p = p->prox;
+    }
+    p->prox = newNode;
     return l;
 }
 
@@ -51,10 +70,11 @@ void imprime_lista(nodo *l){
 
 nodo * inicializa(){
     nodo *p;
-    p = (nodo *)malloc(sizeof(nodo));
-    printf("\nDigite o dado do primeiro nodo: ");
-    scanf("%i", &p->dado);
-    p->prox = NULL;
+    p = NULL;
+    //p = (nodo *)malloc(sizeof(nodo));
+    //printf("\nDigite o dado do primeiro nodo: ");
+    //scanf("%i", &p->dado);
+    //p->prox = NULL;
     return p;
 }
 
@@ -89,6 +109,10 @@ nodo * busca_rmv(nodo *l, int valor){
     nodo *a;
     a = NULL;
     p = l;
+    if (p == NULL){
+        printf("Lista vazia.\n");
+        return l;
+    }
     while (p->prox != NULL && valor != p->dado){
         a = p;
         p = p->prox;
