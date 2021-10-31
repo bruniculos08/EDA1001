@@ -11,5 +11,12 @@ tarefa *geraTarefa(){
     time = &newTarefa->dados.deadline;
     printf("Digite o a hora: ");
     scanf("%i", &time->hora);
-    printf("")
+    printf("Digite o minuto: ");
+    scanf("%i", &time->minuto);
+    printf("Digite o dia: ");
+    scanf("%i", &time->dia);
+    printf("Digite o mes: ");
+    scanf("%i", &time->mes);
+    printf("Digite o ano: ");
+    scanf("%i", &time->ano);
 }
