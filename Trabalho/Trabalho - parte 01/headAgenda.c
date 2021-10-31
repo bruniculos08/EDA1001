@@ -19,4 +19,8 @@ tarefa *geraTarefa(){
     scanf("%i", &time->mes);
     printf("Digite o ano: ");
     scanf("%i", &time->ano);
+    printf("Digite a duracao: ");
+    scanf("%i", &newTarefa->dados.duracao);
+    printf("Digite o nome: ");
+    scanf("%i", &newTarefa->dados.nome);
 }
