@@ -19,4 +19,5 @@ tarefa *geraTarefa();
 tarefa *insereTarefa(tarefa *l, tarefa *novaTarefa);
 tarefa *removerTarefa(tarefa *l, int idRemover);
 tarefa *alterarTarefa(tarefa *l, int idAlterar);
+tarefa *verTarefas(tarefa *l);
 void indicarTarefa(tarefa *l);
