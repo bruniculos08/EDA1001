@@ -29,7 +29,7 @@ int main(void) {
 
         switch (n) {
             case 1:
-                insereTarefa(lista, geraTarefa());
+                insereTarefa(lista, geraTarefa(lista));
                 break;
             case 2:
                 verTarefas(lista);
