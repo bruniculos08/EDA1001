@@ -37,6 +37,8 @@ tarefa *geraTarefa(tarefa *l){
         }
         lista = lista->next;
     } while (lista != NULL);
+
+    return newTarefa;
 }
 
 int dataAnterior(tempo a, tempo b){
@@ -61,28 +63,28 @@ int dataAnterior(tempo a, tempo b){
     }
 }
 
-tarefa *insereTarefa(tarefa *l, tarefa *novaTarefa){
+tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
     tarefa *lista;
     tarefa *a;
     lista = l;
     a = NULL;
     while(lista != NULL){
-        if (dataAnterior(novaTarefa->dados.deadline, lista->dados.deadline) == 2 && lista->next == NULL){
-            lista->next = novaTarefa;
+        if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && lista->next == NULL){
+            lista->next = newTarefa;
             return l;
         }
-        else if (dataAnterior(novaTarefa->dados.deadline, lista->dados.deadline) == 2 && dataAnterior(novaTarefa->dados.deadline, lista->next->dados.deadline) == 1){
-            novaTarefa->next = lista->next;
-            lista->next = novaTarefa;
+        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && dataAnterior(newTarefa->dados.deadline, lista->next->dados.deadline) == 1){
+            newTarefa->next = lista->next;
+            lista->next = newTarefa;
             return l;
         }
-        else if (dataAnterior(novaTarefa->dados.deadline, lista->dados.deadline) == 1 && a == NULL){
-            novaTarefa->next = lista;
+        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 1 && a == NULL){
+            newTarefa->next = lista;
         }
         
         a = lista;
         lista = lista->next;
     };
 
-    return novaTarefa;
+    return newTarefa;
 }
