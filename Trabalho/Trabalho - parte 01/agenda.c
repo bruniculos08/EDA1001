@@ -7,12 +7,11 @@
 int main(void) {
     int n, j;
     tarefa *lista;
-    lista = (tarefa *)malloc(sizeof(tarefa));
-    lista->next = NULL;
+    lista = NULL;
     
     do
     {
-        system("cls");
+        //system("cls");
         printf("|-------------------------------------|\n");
         printf("|    CADASTRO DE TAREFA               |\n");
         printf("|-------------------------------------|\n");
@@ -29,7 +28,8 @@ int main(void) {
 
         switch (n) {
             case 1:
-                insereTarefa(lista, geraTarefa(lista));
+                lista = insereTarefa(lista, geraTarefa(lista));
+                fflush(stdin);
                 break;
             case 2:
                 verTarefas(lista);
@@ -42,10 +42,15 @@ int main(void) {
             case 4:
                 printf("Digite o ID da tarefa à ser editada: ");
                 scanf("%i", &j);
-                alterarTarefa(lista, j);
+                lista = alterarTarefa(lista, j);
                 break;
             case 5:
                 indicarTarefa(lista);
+                break;
+            case 0:
+                break;
+            default:
+                printf("Opcao invalida.\n");
                 break;
         }
     } while (n!=0);

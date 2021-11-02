@@ -52,7 +52,7 @@ lista *insertOrder(lista *totalList, lista *newList) {
             p1->next = newList;
             return totalList;
         }
-        else if (p1->number <= newList->number && p1->next->number >= newList->number){ //^entre dois termos
+        else if (p1->number <= newList->number && p1->next->number >= newList->number){ //^ entre dois termos
             newList->next = p1->next;
             p1->next = newList;
             return totalList;

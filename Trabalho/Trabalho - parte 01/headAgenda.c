@@ -30,13 +30,15 @@ tarefa *geraTarefa(tarefa *l){
     
     int randomNumber = rand();
 
-    do{                                         //^ Verifica se há ID repetido
-        if (randomNumber == lista->id){
-            randomNumber = rand();
-            lista = l;
-        }
-        lista = lista->next;
-    } while (lista != NULL);
+    if (l != NULL){
+        do{                                         //^ Verifica se há ID repetido
+            if (randomNumber == lista->id){
+                randomNumber = rand();
+                lista = l;
+            }
+            lista = lista->next;
+        } while (lista != NULL);
+    }
 
     return newTarefa;
 }
@@ -94,26 +96,106 @@ void verTarefas(tarefa *l){
     lista = l;
     if (lista == NULL){
         printf("Nao ha registro de tarefas.\n");
-        return l;
     }
     while (lista != NULL){
         printf("%s\n", lista->dados.nome);
         printf("ID: %i\n", lista->id);
         lista = lista->next;
-        return l;
     }
 }
 
 tarefa *removerTarefa(tarefa *l, int idRemover){
     tarefa *lista;
     lista = l;
+    tarefa *anterior;
+    anterior = NULL;
     if (lista == NULL){
         printf("Nao ha tarefas para serem removidas.\n");
         return l;
     }
     while (lista != NULL){
-        if(lista->id == idRemover) {
-            
+        if (lista->id == idRemover && lista->next != NULL && anterior == NULL)
+        {
+            anterior = lista->next;
+            free(lista);
+            return anterior;
         }
+        else if(lista->id == idRemover && lista->next != NULL && anterior != NULL){
+            anterior->next = lista->next;
+            free(lista);
+            return l;
+        }
+        else if(lista->id == idRemover && lista->next == NULL){
+            anterior->next = NULL;
+            free(lista);
+            return l;
+        }
+        anterior = lista;
+        lista = lista->next;
     }
+    printf("A tarefa a ser removida nao foi encontrada.\n");
+    return l;
+}
+
+tarefa *alterarTarefa(tarefa *l, int idAlterar){
+    tarefa *lista;
+    lista = l;
+    int n;
+    while (lista != NULL){
+        if (lista->id == idAlterar){
+            break;
+        }
+        lista = lista->next;
+    }
+
+    do
+    {
+        printf("Digite o elemento a ser alterado:\n1- Nome\n2- Duracao\n3- Deadline\n4- Prioridade\n0- Sair\n");
+        scanf("%i", &n);
+        char nome[50];
+        int duracao;
+        tempo deadline;
+        int prioridade;
+
+        switch (n){
+            case 1:
+                printf("Digite o novo nome: ");
+                scanf("%s", &nome);
+                strcpy(lista->dados.nome, nome);
+                break;
+            case 2:
+                printf("Digite a nova duracao: ");
+                scanf("%i", &duracao);
+                lista->dados.duracao = duracao;
+                break;
+            case 3:
+                printf("Digite o novo ano: ");
+                scanf("%i", &deadline.ano);
+                printf("Digite o novo mes: ");
+                scanf("%i", &deadline.mes);
+                printf("Digite o novo dia: ");
+                scanf("%i", &deadline.dia);
+                printf("Digite a nova hora: ");
+                scanf("%i", &deadline.hora);
+                printf("Digite o novo minuto: ");
+                scanf("%i", &deadline.minuto);
+                lista->dados.deadline = deadline;
+                break;
+            case 4:
+                printf("Digite a nova prioridade: ");
+                scanf("%i", &prioridade);
+                lista->dados.prioridade = prioridade;
+                break;
+            case 0:
+                return l;
+            default:
+                printf("Opcao invalida.\n");
+                break;
+        }
+    } while (n != 0);
+    return l;
+}
+
+void indicarTarefa(tarefa *l) {
+
 }
