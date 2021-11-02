@@ -88,3 +88,32 @@ tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
 
     return newTarefa;
 }
+
+void verTarefas(tarefa *l){
+    tarefa *lista;
+    lista = l;
+    if (lista == NULL){
+        printf("Nao ha registro de tarefas.\n");
+        return l;
+    }
+    while (lista != NULL){
+        printf("%s\n", lista->dados.nome);
+        printf("ID: %i\n", lista->id);
+        lista = lista->next;
+        return l;
+    }
+}
+
+tarefa *removerTarefa(tarefa *l, int idRemover){
+    tarefa *lista;
+    lista = l;
+    if (lista == NULL){
+        printf("Nao ha tarefas para serem removidas.\n");
+        return l;
+    }
+    while (lista != NULL){
+        if(lista->id == idRemover) {
+            
+        }
+    }
+}
