@@ -99,19 +99,19 @@ tarefa *geraTarefa(tarefa *l){
 int dataAnterior(tempo a, tempo b){
     if (a.ano > b.ano) return 2;
     else if (a.ano < b.ano) return 1;
-    else if (a.ano == b.ano){
+    else {
         if (a.mes > b.mes) return 2;
         else if (a.mes < b.mes) return 1;
-        else if (a.mes < b.mes){
+        else {
             if (a.dia > b.dia) return 2;
             else if (a.dia < b.dia) return 1;
-            else if (a.dia == b.dia){
+            else {
                 if (a.hora > b.hora) return 2;
                 else if (a.hora < b.hora) return 1;
-                else if (a.hora == b.hora){
+                else {
                     if (a.minuto > b.minuto) return 2;
                     else if (a.minuto < b.minuto) return 1;
-                    else if (a.minuto == b.minuto) return -1;
+                    else return 0;
                 }
             }
         }
@@ -130,6 +130,8 @@ tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
     }
     while(lista != NULL){
         printf("Inserindo tarefa\n");
+        printf("Data anterior: %i\n", dataAnterior(newTarefa->dados.deadline, lista->dados.deadline));
+
         if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && lista->next == NULL){
             printf("Inserindo tarefa 1\n");
             lista->next = newTarefa;
@@ -151,6 +153,12 @@ tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
            printf("Inserindo tarefa 4 \n");
            newTarefa->next = lista;
             return newTarefa;
+        }
+        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 0){
+            printf("Inserindo iguais.\n");
+            newTarefa->next = lista->next;
+            lista->next = newTarefa;
+            return l;
         }
         
         if (lista->next == NULL){
