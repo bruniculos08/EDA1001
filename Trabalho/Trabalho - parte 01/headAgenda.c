@@ -5,41 +5,42 @@
 #include <time.h>
 
 tarefa *geraTarefa(tarefa *l){
-    tarefa *lista = l;
+    tarefa *lista;
+    lista = l;
     tarefa *newTarefa;
     newTarefa = (tarefa *)malloc(sizeof(tarefa));
-    tempo *time;
-    time = &newTarefa->dados.deadline;
     
-    printf("Digite o a hora: ");
-    scanf("%i", &time->hora);
+    printf("Digite a hora: ");
+    scanf("%i", &newTarefa->dados.deadline.hora);
     printf("Digite o minuto: ");
-    scanf("%i", &time->minuto);
+    scanf("%i", &newTarefa->dados.deadline.minuto);
     printf("Digite o dia: ");
-    scanf("%i", &time->dia);
+    scanf("%i", &newTarefa->dados.deadline.dia);
     printf("Digite o mes: ");
-    scanf("%i", &time->mes);
+    scanf("%i", &newTarefa->dados.deadline.mes);
     printf("Digite o ano: ");
-    scanf("%i", &time->ano);
+    scanf("%i", &newTarefa->dados.deadline.ano);
     printf("Digite a duracao: ");
     scanf("%i", &newTarefa->dados.duracao);
     printf("Digite a prioridade: ");
     scanf("%i", &newTarefa->dados.prioridade);
     printf("Digite o nome: ");
-    scanf("%i", &newTarefa->dados.nome);
+    scanf("%s", &newTarefa->dados.nome);
     
-    int randomNumber = rand();
-
-    if (l != NULL){
+    int randomNumber = rand() % 1000000;
+    
+    if (lista != NULL){
+        printf("Verificando ID\n"); 
         do{                                         //^ Verifica se há ID repetido
             if (randomNumber == lista->id){
-                randomNumber = rand();
+                randomNumber = rand() % 1000000;
                 lista = l;
             }
             lista = lista->next;
         } while (lista != NULL);
     }
-
+    
+    newTarefa->id = randomNumber;
     return newTarefa;
 }
 
@@ -70,24 +71,45 @@ tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
     tarefa *a;
     lista = l;
     a = NULL;
+    if (lista == NULL){
+        printf("Inserindo tarefa em lista vazia\n");
+        newTarefa->next = NULL;
+        return newTarefa;
+    }
     while(lista != NULL){
+        printf("Inserindo tarefa\n");
         if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && lista->next == NULL){
+            printf("Inserindo tarefa 1\n");
             lista->next = newTarefa;
+            newTarefa->next = NULL;
             return l;
         }
+        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 1 && lista->next == NULL){
+            printf("Inserindo tarefa 2\n");
+            newTarefa->next = lista;
+            return newTarefa;
+        }
         else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && dataAnterior(newTarefa->dados.deadline, lista->next->dados.deadline) == 1){
+            printf("Inserindo tarefa 3\n");
             newTarefa->next = lista->next;
             lista->next = newTarefa;
             return l;
         }
         else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 1 && a == NULL){
-            newTarefa->next = lista;
+           printf("Inserindo tarefa 4 \n");
+           newTarefa->next = lista;
+            return newTarefa;
         }
         
+        if (lista->next == NULL){
+            printf("Inserindo tarefa 5\n");
+           lista->next = newTarefa;
+           return l;
+        }
         a = lista;
         lista = lista->next;
-    };
-
+    }
+    printf("Inserindo tarefa return\n");
     return newTarefa;
 }
 
