@@ -8,7 +8,9 @@ int main(void) {
     int n, j;
     tarefa *lista;
     lista = NULL;
-    
+    //lista = (tarefa*)malloc(sizeof(tarefa));
+    lista = lerTarefasSalvas(lista);
+
     do
     {
         //system("cls");
@@ -63,5 +65,9 @@ int main(void) {
                 printf("Opcao invalida.\n");
                 break;
         }
+
     } while (n!=0);
+
+
+    salvarTarefas(lista);
 }

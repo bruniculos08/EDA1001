@@ -239,7 +239,6 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
         
         lista = lista->next;
     }
-
     do
     {
         printf("Digite o elemento a ser alterado:\n1- Nome\n2- Duracao\n3- Deadline\n4- Prioridade\n0- Sair\n");
@@ -295,4 +294,48 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
 
 void indicarTarefa(tarefa *l) {
 
+}
+
+int tamanhoTarefas(tarefa *l) {
+    tarefa *lista;
+    lista = l;
+    int n = 0;
+    if (lista == NULL) return 0;
+    while (lista != NULL) {
+        n++;
+        lista = lista->next;
+    }
+    return n;
+}
+
+void salvarTarefas(tarefa *l) {
+    tarefa *lista;
+    lista = l;
+    FILE *agenda;
+    agenda = fopen("arquivoAgenda.b", "wb+");
+    if (lista == NULL) {
+        agenda = NULL;
+    }
+    while (lista != NULL) {
+        printf("escrevendo...\n");
+        fwrite(lista, sizeof(tarefa), 1, agenda);
+        lista = lista->next;
+    }
+    fclose(agenda);
+}
+
+tarefa *lerTarefasSalvas(tarefa *l){
+    tarefa *lista;
+    lista = l;
+    FILE *agenda;
+    agenda = fopen("arquivoAgenda.b", "rb");
+    fseek(agenda, 0, SEEK_SET);
+    tarefa *itemLido;
+    itemLido = (tarefa *)malloc(sizeof(tarefa));
+    while (fread(itemLido, sizeof(tarefa), 1, agenda)){
+        fread(itemLido, sizeof(tarefa), 1, agenda);
+        lista = insereTarefa(lista, itemLido);
+    }
+    fclose(agenda);
+    return lista;
 }
