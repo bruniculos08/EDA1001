@@ -9,19 +9,71 @@ tarefa *geraTarefa(tarefa *l){
     lista = l;
     tarefa *newTarefa;
     newTarefa = (tarefa *)malloc(sizeof(tarefa));
+    do
+    {
+        printf("Digite a hora: ");
+        scanf("%i", &newTarefa->dados.deadline.hora);
+        if (newTarefa->dados.deadline.hora < 0)
+        {
+            printf("Valor de hora invalido.\n");
+        }
+        
+    } while (newTarefa->dados.deadline.hora < 0);
+
+        do
+    {
+        printf("Digite o minuto: ");
+        scanf("%i", &newTarefa->dados.deadline.minuto);
+        if (newTarefa->dados.deadline.minuto < 0 || newTarefa->dados.deadline.minuto > 59)
+        {
+            printf("Valor de minuto invalido.\n");
+        }
+        
+    } while (newTarefa->dados.deadline.minuto < 0 || newTarefa->dados.deadline.minuto > 59);
     
-    printf("Digite a hora: ");
-    scanf("%i", &newTarefa->dados.deadline.hora);
-    printf("Digite o minuto: ");
-    scanf("%i", &newTarefa->dados.deadline.minuto);
-    printf("Digite o dia: ");
-    scanf("%i", &newTarefa->dados.deadline.dia);
-    printf("Digite o mes: ");
-    scanf("%i", &newTarefa->dados.deadline.mes);
-    printf("Digite o ano: ");
-    scanf("%i", &newTarefa->dados.deadline.ano);
-    printf("Digite a duracao: ");
-    scanf("%i", &newTarefa->dados.duracao);
+        do
+    {
+        printf("Digite o dia: ");
+        scanf("%i", &newTarefa->dados.deadline.dia);
+        if (newTarefa->dados.deadline.dia < 0 || newTarefa->dados.deadline.dia > 30)
+        {
+            printf("Valor de dia invalido.\n");
+        }
+        
+    } while (newTarefa->dados.deadline.dia < 0 || newTarefa->dados.deadline.dia > 30);
+    
+        do
+    {
+        printf("Digite o mes: ");
+        scanf("%i", &newTarefa->dados.deadline.mes);
+
+        if (newTarefa->dados.deadline.mes < 0 || newTarefa->dados.deadline.mes > 12)
+        {
+            printf("Valor de mes invalido.\n");
+        }
+        
+    } while (newTarefa->dados.deadline.mes < 0 || newTarefa->dados.deadline.mes > 12);
+
+        do
+    {
+        printf("Digite o ano: ");
+        scanf("%i", &newTarefa->dados.deadline.ano);
+        if (newTarefa->dados.deadline.ano < 0)
+        {
+            printf("Valor de ano invalido.\n");
+        }
+    } while (newTarefa->dados.deadline.ano < 0);
+
+        do
+    {
+        printf("Digite a duracao: ");
+        scanf("%i", &newTarefa->dados.duracao);
+        if (newTarefa->dados.duracao < 0)
+        {
+            printf("Valor de duracao invalido.\n");
+        }    
+    } while (newTarefa->dados.duracao < 0);
+
     printf("Digite a prioridade: ");
     scanf("%i", &newTarefa->dados.prioridade);
     printf("Digite o nome: ");
@@ -36,7 +88,7 @@ tarefa *geraTarefa(tarefa *l){
                 randomNumber = rand() % 1000000;
                 lista = l;
             }
-            lista = lista->next;
+            lista = lista->next; 
         } while (lista != NULL);
     }
     //^ Perguntar por que quando não há essa atribuição (linha 43) os ID's são repetidos de 2 em 2 a partir do segundo item da lista
@@ -142,6 +194,10 @@ tarefa *removerTarefa(tarefa *l, int idRemover){
             free(lista);
             return anterior;
         }
+        else if (lista->id == idRemover && lista->next == NULL && anterior == NULL){
+            free(lista);
+            return NULL;
+        }
         else if(lista->id == idRemover && lista->next != NULL && anterior != NULL){
             anterior->next = lista->next;
             free(lista);
@@ -167,6 +223,12 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
         if (lista->id == idAlterar){
             break;
         }
+        if (lista->next == NULL)
+        {
+            printf("Item nao encontrado.\n");
+            return l;
+        }
+        
         lista = lista->next;
     }
 
@@ -209,12 +271,17 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
                 lista->dados.prioridade = prioridade;
                 break;
             case 0:
-                return l;
+                break;
             default:
                 printf("Opcao invalida.\n");
                 break;
         }
     } while (n != 0);
+    tarefa *newTarefa;
+    newTarefa = (tarefa*)malloc(sizeof(tarefa));
+    *newTarefa = *lista;
+    l = removerTarefa(l, idAlterar);
+    l = insereTarefa(l, newTarefa);
     return l;
 }
 

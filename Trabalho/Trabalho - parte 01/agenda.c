@@ -35,14 +35,24 @@ int main(void) {
                 verTarefas(lista);
                 break;
             case 3:
-                printf("Digite o ID da tarefa à ser removida: ");
+                if (lista == NULL) {
+                    printf("Nao ha itens para serem removidos.\n");
+                    break;
+                }
+                printf("Digite o ID da tarefa a ser removida: ");
                 scanf("%i", &j);
-                removerTarefa(lista, j);
+                lista = removerTarefa(lista, j);
                 break;
             case 4:
-                printf("Digite o ID da tarefa à ser editada: ");
+                if (lista == NULL)
+                {
+                    printf("Nao ha itens para serem alterados.\n");
+                    break;
+                }
+                printf("Digite o ID da tarefa a ser editada: ");
                 scanf("%i", &j);
                 lista = alterarTarefa(lista, j);
+                fflush(stdin);
                 break;
             case 5:
                 indicarTarefa(lista);
