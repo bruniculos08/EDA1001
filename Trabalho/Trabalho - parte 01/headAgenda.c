@@ -39,7 +39,7 @@ tarefa *geraTarefa(tarefa *l){
             lista = lista->next;
         } while (lista != NULL);
     }
-    
+    //^ Perguntar por que quando não há essa atribuição (linha 43) os ID's são repetidos de 2 em 2 a partir do segundo item da lista
     newTarefa->id = randomNumber;
     return newTarefa;
 }
