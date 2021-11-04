@@ -319,6 +319,7 @@ void salvarTarefas(tarefa *l) {
     while (lista != NULL) {
         printf("escrevendo...\n");
         fwrite(lista, sizeof(tarefa), 1, agenda);
+        fseek(agenda, 0, SEEK_END);
         lista = lista->next;
     }
     fclose(agenda);
@@ -329,12 +330,14 @@ tarefa *lerTarefasSalvas(tarefa *l){
     lista = l;
     FILE *agenda;
     agenda = fopen("arquivoAgenda.b", "rb");
+    if(agenda==NULL) return l;
     fseek(agenda, 0, SEEK_SET);
-    tarefa *itemLido;
-    itemLido = (tarefa *)malloc(sizeof(tarefa));
-    while (fread(itemLido, sizeof(tarefa), 1, agenda)){
-        fread(itemLido, sizeof(tarefa), 1, agenda);
-        lista = insereTarefa(lista, itemLido);
+    tarefa itemLido;
+    while (fread(&itemLido, sizeof(tarefa), 1, agenda)){
+        //fread(&itemLido, sizeof(tarefa), 1, agenda);
+        printf("%s\n", itemLido.dados.nome);
+        lista = insereTarefa(lista, &itemLido);
+        //fseek(agenda, sizeof(tarefa), SEEK_SET);
     }
     fclose(agenda);
     return lista;
