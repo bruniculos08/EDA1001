@@ -9,15 +9,25 @@ node *insereOrdenado(node *l, int valor){
     anterior = lista->before;
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
+    newNode->value = valor;
+    newNode->before = NULL;
+    newNode->next = NULL;
+
     if(lista == NULL){
-        lista->value = valor;
-        lista->before = NULL;
-        lista->next = NULL;
+        lista = newNode;
         return lista;
     }
+
     while(lista != NULL){
         if(lista->value < valor && lista->next == NULL){
-            
+            lista->next = newNode;
+            newNode->before = lista;
+            return l;
+        }
+        else if(lista->value > valor && lista->before == NULL){
+            lista->before = newNode;
+            newNode->next = lista;
+            return newNode;
         }
     }
 }
