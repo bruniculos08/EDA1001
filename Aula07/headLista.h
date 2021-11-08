@@ -6,7 +6,7 @@ struct Node{
     node *before;
 };
 node *remover(node *l, int removedValue);
-node *insereFim(node *l, int newValue);
+void imprime(node *l);
 node *insereOrdenado(node *l, int newValue);
 node *atualizar(node *l, int newValue, int posiList);
 void buscar(node *l, int value);

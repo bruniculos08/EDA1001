@@ -6,7 +6,6 @@ node *insereOrdenado(node *l, int valor){
     node *lista;
     lista = l;
     node *anterior;
-    anterior = lista->before;
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
     newNode->value = valor;
@@ -17,7 +16,7 @@ node *insereOrdenado(node *l, int valor){
         lista = newNode;
         return lista;
     }
-
+    anterior = lista->before;
     while(lista != NULL){
         if(lista->value < valor && lista->next == NULL){
             lista->next = newNode;
@@ -47,19 +46,21 @@ void buscar(node *l, int value){
     lista = l;
     if (lista == NULL){
         printf("Lista vazia.\n");
+        return;
     }
     while(lista != NULL){
         if (lista->value == value){
-            printf("O item está na posicao %i\n", index+1);
+            printf("O item esta na posicao %i\n", index+1);
             break;
         }
         else if (lista->value != value && lista->next == NULL){
-            printf("O item nao esta na lista.\n");
+            printf("Item nao encontrado.\n");
             break;
         }
         index++;
         lista = lista->next;
     }
+    imprime(l);
 }
 
 node *atualizar(node *l, int newValue, int posiList){
@@ -78,4 +79,55 @@ node *atualizar(node *l, int newValue, int posiList){
     }
     l = remover(l, lista->value);
     l = insereOrdenado(l, newValue);
+    return l;
+}
+
+node *remover(node *l, int removedValue){
+    node *lista;
+    lista = l;
+    if (lista == NULL){
+        printf("Lista vazia.\n");
+        return l;
+    }
+    while(lista != NULL){
+        if (lista->value == removedValue && lista->before == NULL && lista->next == NULL){
+            return NULL;
+        }
+        else if (lista->value == removedValue && lista->before == NULL){
+            lista = lista->next;
+            free(lista->before);
+            lista->before = NULL;
+            return lista;
+        }
+        else if(lista->value == removedValue && lista->next == NULL){
+            lista = lista->before;
+            free(lista->next);
+            lista->next = NULL;
+            return l;
+        }
+        else if(lista->value == removedValue){
+            lista = lista->before;
+            lista->next = lista->next->next;
+            free(lista->next->before);
+            lista->next->before = lista;
+            return l;
+        }
+        lista = lista->next;
+    }
+    printf("Item não encontrado.\n");
+    return l;
+}
+
+void imprime(node *l){
+    node *lista;
+    lista = l;
+    if(lista == NULL){
+        printf("Lista vazia.\n");
+        return;
+    }
+    while(lista != NULL){
+        printf("%i ", lista->value);
+        lista = lista->next;
+    }
+    printf("\n");
 }
