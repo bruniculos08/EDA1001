@@ -146,5 +146,28 @@ node *ponteiro(node *l, int position){
 }
 
 node *troca(node *l, node *trocaNodo){
-    
+    node *lista;
+    node *aux;
+    lista = NULL;
+    aux = NULL;
+    if(lista == NULL){
+        printf("Lista vazia.\n");
+        return l;
+    }
+    while(lista != NULL){
+        //^ para se houver apenas um elemento na lista
+        if(lista == trocaNodo && lista->before == NULL){
+            aux = lista->next;
+            lista->before = lista->next;
+            lista->next = lista->next->next;
+            aux->next = lista;
+            aux->before = NULL;
+            return aux;
+        }
+        else if(lista == trocaNodo && lista->next == NULL){
+            lista->before->next = NULL;
+            free(lista);
+            return l;
+        }
+    }
 }
