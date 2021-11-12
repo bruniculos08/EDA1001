@@ -55,8 +55,8 @@ int profundidade(nodo *l, int valor){
 }
 
 void imprime_lista(nodo *l){
-    nodo *p;
-    p = l;
+    nodo *p = l;
+    //p = l;
     if (p == NULL){
         printf("Lista vazia.\n");
         return;
