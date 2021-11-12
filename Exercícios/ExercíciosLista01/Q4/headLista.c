@@ -150,44 +150,43 @@ node *ponteiro(node *l, int position){
     return lista;
 }
 
-node *troca(node *l, node *trocaNodo){
-    node *lista;
+node *trocaNodo(node *l, node *l1, node *l2){
     node *aux;
-    lista = l;
-    aux = NULL;
-    if(lista == NULL){
-        printf("Lista vazia.\n");
-        return l;
+    aux = (node *)malloc(sizeof(node));
+    aux->next = l1->next;
+    aux->before = l1->before;
+    if(l1 == l2) return l;
+    else if(l1->next != l2 && l2->next != l1){
+        l1->before = l2->before;
+        l1->next = l2->next;
+        if(l1->before != NULL) l1->before->next = l1;
+        if(l1->next != NULL) l1->next->before = l1; 
+        l2->before = aux->before;
+        l2->next = aux->next;
+        if(l2->before != NULL) l2->before->next = l2;
+        if(l2->next != NULL) l2->next->before = l2;
     }
-    while(lista != NULL){
-        if(lista == trocaNodo && lista->next == NULL && lista->before == NULL){
-            printf("Apenas um elemento na lista.\n");
-            return lista;
-        }
-        else if(lista == trocaNodo && lista->before == NULL){
-            printf("1");
-            aux = lista->next;
-            lista->before = lista->next;
-            lista->next = lista->next->next;
-            aux->next = lista;
-            aux->before = NULL;
-            return aux;
-        }
-        else if(lista == trocaNodo && lista->next == NULL){
-            lista->before->next = NULL;
-            printf("Retirando último elemento da lista");
-            free(lista);
-            return l;
-        }
-        else if(lista == trocaNodo){
-            aux = lista->before;
-            lista->next->before = aux;
-            aux->next = lista->next;
-            lista->before = lista->next;
-            lista->next = lista->next->next;
-            aux->next->next = lista;
-            return l;
-        }
-        lista = lista->next;
+    else if(l1->next == l2){
+        l1->before = l2;
+        l1->next = l2->next;
+        if(l1->before != NULL) l1->before->next = l1;
+        if(l1->next != NULL) l1->next->before = l1;
+        l2->before = aux->before;
+        l2->next = l1;
+        if(l2->before != NULL) l2->before->next = l2;
+        if(l2->next != NULL) l2->next->before = l2;
     }
+    else if(l2->next == l1){
+        l1->before = l2->before;
+        l1->next = l2;
+        if(l1->before != NULL) l1->before->next = l1;
+        if(l1->next != NULL) l1->next->before = l1;
+        l2->before = l1;
+        l2->next = aux->next;
+        if(l2->before != NULL) l2->before->next = l2;
+        if(l2->next != NULL) l2->next->before = l2;
+    }
+    if(l1->before == NULL) return l1;
+    if(l2->before == NULL) return l2;
+    return l;
 }

@@ -145,43 +145,52 @@ nodo *ponteiro(nodo *l, int position){
     return lista;
 }
 
-nodo *troca(nodo *l, nodo *trocaNodo) {
-    printf("11\n");
-    nodo *lista;
-    nodo *anterior;
+nodo *trocaNodo(nodo *l, nodo *l1, nodo *l2){
     nodo *aux;
-    lista = l;
-    anterior = NULL;
-    aux = NULL;
-    if (lista == NULL){
-        printf("Lista vazia.\n");
-        return NULL;
+    aux = l;
+    nodo *a1;
+    a1 = NULL;
+    nodo *a2;
+    a2 = NULL;
+    nodo *a;
+    a = NULL;
+    if (l1 == NULL || l2 == NULL){
+        printf("Ponteiros inválidos.\n");
+        return l;
     }
-    while (lista != NULL){
-        if (lista == trocaNodo && lista->prox == NULL && anterior == NULL){
-            printf("Apenas um elemento na lista.\n");
-            return lista;
-        }
-        else if (lista == trocaNodo && anterior == NULL) {
-            aux = lista->prox->prox;
-            anterior = lista->prox;
-            lista->prox->prox = lista;
-            lista->prox = aux;
-            return anterior;
-        }
-        else if (lista == trocaNodo && lista->prox == NULL){
-            printf("Retirando último elemento da lista");
-            anterior->prox = NULL;
-            free(lista);
-            return l;
-        }
-        else if (lista == trocaNodo){
-            anterior->prox = lista->prox;       //^ anterior aponta pra quem está na frente
-            lista->prox = lista->prox->prox;    //^ lista aponta para o proximo do que esta na frente
-            anterior->prox->prox = lista;       //^ o que estava na frente agora aponta para lista
-            return l;
-        }
-        anterior = lista;
-        lista = lista->prox;
+    else if (l1 == l2) {
+        printf("Ponteiros iguais.\n");
+        return l;
     }
+    while(aux != NULL){
+        if (aux->prox == l1){
+            printf("1");
+            a1 = aux;
+        }
+        else if (aux->prox == l2){
+            printf("2");
+            a2 = aux;
+        }
+        else if (aux == l1 && a == NULL){
+            printf("3");
+            a1 = NULL;
+        }
+        else if (aux == l2 && a == NULL){
+            printf("4");
+            a2 = NULL;
+        }
+        a = aux;
+        aux = aux->prox;
+    }
+    aux = l1->prox;
+    if(a1 != NULL && a1 != l2) a1->prox = l2;
+    if (l2->prox != l1) l1->prox = l2->prox;
+    else l1->prox = l2;
+    if(a2 != NULL && a2 != l1) a2->prox = l1;
+    if (aux != l2) l2->prox = aux;
+    else l2->prox = l1;
+    
+    if(a1 == NULL) return l2;
+    if(a2 == NULL) return l1;
+    return l;
 }

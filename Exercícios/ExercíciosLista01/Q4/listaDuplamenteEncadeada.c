@@ -37,9 +37,14 @@ int main(){
             lista = remover(lista, n);
             break;
         case 5:
-            printf("Digite a posicao do valor a ser trocado: ");
+            printf("Digite a posicao do valor(1) a ser trocado: ");
             scanf("%i", &n);
-            lista = troca(lista, ponteiro(lista, n));
+            printf("Digite a posicao do valor(2) a ser trocado: ");
+            scanf("%i", &v);
+            lista = trocaNodo(lista, ponteiro(lista, n), ponteiro(lista, v));
+            break;
+        case 11:
+            imprime(lista);
             break;        
         default:
             if (i == 0) break;
