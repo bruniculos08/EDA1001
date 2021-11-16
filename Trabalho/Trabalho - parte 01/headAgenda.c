@@ -13,12 +13,12 @@ tarefa *geraTarefa(tarefa *l){
     {
         printf("Digite a hora: ");
         scanf("%i", &newTarefa->dados.deadline.hora);
-        if (newTarefa->dados.deadline.hora < 0)
+        if (newTarefa->dados.deadline.hora < 0 && newTarefa->dados.deadline.hora > 23)
         {
             printf("Valor de hora invalido.\n");
         }
         
-    } while (newTarefa->dados.deadline.hora < 0);
+    } while (newTarefa->dados.deadline.hora < 0 && newTarefa->dados.deadline.hora > 23);
 
         do
     {
