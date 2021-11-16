@@ -93,6 +93,7 @@ tarefa *geraTarefa(tarefa *l){
     }
     //^ Perguntar por que quando não há essa atribuição (linha 43) os ID's são repetidos de 2 em 2 a partir do segundo item da lista
     newTarefa->id = randomNumber;
+    
     return newTarefa;
 }
 
@@ -248,8 +249,8 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
         tempo deadline;
         int prioridade;
 
-        switch (n){
-            case 1:
+        switch (n){ //^ é necessário haver restrições aqui
+            case 1: 
                 printf("Digite o novo nome: ");
                 scanf("%s", &nome);
                 strcpy(lista->dados.nome, nome);
