@@ -6,7 +6,7 @@ struct Tempo {
 };
 struct Reg {
     char nome[50];
-    int duracao;
+    int duracao; //^ trocar depois de int para tempo (quantidade de minutos, horas, dias, meses e anos)
     tempo deadline;
     int prioridade;
 };

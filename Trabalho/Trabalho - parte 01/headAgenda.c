@@ -77,10 +77,10 @@ tarefa *geraTarefa(tarefa *l){
     printf("Digite a prioridade: ");
     scanf("%i", &newTarefa->dados.prioridade);
     printf("Digite o nome: ");
-    scanf("%s", &newTarefa->dados.nome);
+    scanf("%s", &newTarefa->dados.nome);    //^ usar gets()
     
     int randomNumber = rand() % 1000000;
-    
+    //^ usar srand(time(NULL)) depois
     if (lista != NULL){
         printf("Verificando ID\n"); 
         do{                                         //^ Verifica se há ID repetido
@@ -118,7 +118,7 @@ int dataAnterior(tempo a, tempo b){
         }
     }
 }
-
+//^função valida tarefa e exibir dados tanto verTarefas quanto em alterarTarefa
 tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
     tarefa *lista;
     tarefa *a;
