@@ -19,13 +19,14 @@ node *insere(node *l, int newValue){
     return l;
 }
 
-node *remover(node *l){
+node *remover(node *l, int *oldValue){
     if(l == NULL){
         printf("Empty list.\n");
         return NULL;
     }
     node *start;
     start = l->next;
+    *oldValue = l->value;
     free(l);
     return start;
 }

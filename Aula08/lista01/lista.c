@@ -5,7 +5,7 @@
 void imprime(node *l);
 
 int main(){
-    int k, n;
+    int k, n, removed, empty = 0;
     node *l;
     l = NULL;
     do
@@ -17,10 +17,17 @@ int main(){
             printf("Type the new value: ");
             scanf("%i", &n);
             l = insere(l, n);
+            empty = 1;
             break;
         case 2:
             printf("Removing...\n");
-            l = remover(l);
+            l = remover(l, &removed);
+            if(empty == 1){
+                printf("Last removed value = %i\n", removed);
+            }
+            if(l == NULL){
+                empty = 0;
+            }
             break;
         default:
             if (k != 0) imprime(l);

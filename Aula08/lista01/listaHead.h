@@ -5,4 +5,4 @@ struct Node {
 };
 
 node *insere(node *l, int newValue);
-node *remover(node *l);
+node *remover(node *l, int *oldValue);
