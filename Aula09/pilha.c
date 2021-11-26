@@ -8,6 +8,8 @@ int main(){
     int i, status;
     char string[50], letter;
     pilha *a;
+    a = malloc(sizeof(pilha));
+    a->topo = NULL;
     do
     {   
         printf("Digite a opcao desejada:\n1- inserir expressao\n2- inserir na pilha\n3- retirar da pilha\n4- imprimir pilha\n");
@@ -15,6 +17,7 @@ int main(){
         switch (i)
         {
         case 1:
+            a->topo = NULL;
             printf("Digite a expressao: ");
             scanf("%s", string);
             expressao(a, string);

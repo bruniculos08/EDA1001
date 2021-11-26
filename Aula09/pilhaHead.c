@@ -42,8 +42,8 @@ int lerPilha(pilha *a){
     printf("lendo...\n");
     while(a->topo != NULL){
         char s = retira(a, &status);
-        if(s == '(') n++;
-        else if(s == ')') n = n-1;
+        if(s == ')') n = n+1;
+        else if(s == '(') n = n-1;
         if(n < 0){
             printf("Expressao invalida.\n");
             return 1;
