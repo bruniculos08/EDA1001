@@ -19,7 +19,8 @@ int main(){
         case 1:
             a->topo = NULL;
             printf("Digite a expressao: ");
-            scanf("%s", string);
+            fflush(stdin);
+            gets(string);
             expressao(a, string);
             lerPilha(a);
             break;
