@@ -200,9 +200,12 @@ node *split(node *l){
     while(p2 != NULL && p2->next != NULL){
         p1 = p1->next;
         p2 = p2->next->next;
-        p = p1->next;
     }
+    p = p1->next;
     p1->next = NULL;
+    imprimir(p);
+    imprimir(p2);
+    imprimir(p1);
     return p;
 }
 
@@ -211,34 +214,63 @@ node *merge(node *lista1, node *lista2){
     node *new;
     node *a;
     l = (node *)malloc(sizeof(node));
+    l->next = NULL;
     new = l;
     while(lista1 != NULL && lista2 != NULL){
         if(lista1->number <= lista2->number){
+            printf("merge 1\n");
+            imprimir(lista1);
+            //l = insere_fim(l, lista1->number);
             new->number = lista1->number;
             a = lista1;
             lista1 = lista1->next;
             free(a);
         }
         else{
+            imprimir(lista2);
+            printf("merge 2\n");
+            //l = insere_fim(l, lista2->number);
             new->number = lista2->number;
             a = lista2;
             lista2 = lista2->next;
             free(a);
         }
         new = new->next;
+        new = NULL;
     }
-    if(lista1 == NULL) new = lista2;
-    else new = lista1;
+    if(lista1 == NULL){
+        while(lista2 != NULL){
+            new->number = lista2->number;
+            new = new->next;
+            lista2 = lista2->next;
+        }
+    }
+    else{
+        while(lista1 != NULL){
+            printf("Lista 2 vazia\n");
+            new->number = lista1->number;
+            new = new->next;
+            lista1 = lista1->next;
+        }
+    }
+    printf("merge\n");
+    imprimir(new);
+    imprimir(l);
     return l;
 }
 
 node *mergeSort(node *l){
     node *l1;
     node *l2;
+    node *middle;
     node *sortedNew;
     if(l == NULL || l->next == NULL) return l;
-    l1 = l;
-    l2 = split(l);
+    middle = split(l);
+    imprimir(middle);
+    l1 = mergeSort(l);
+    l2 = mergeSort(middle);
+    imprimir(l1);
+    imprimir(l2);
     sortedNew = merge(l1, l2);
     return sortedNew;
 }
