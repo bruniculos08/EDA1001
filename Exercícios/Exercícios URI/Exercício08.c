@@ -42,31 +42,27 @@ int insere(pilha *a, char dado){
 
 void expressao(pilha *a, char string[]){
     int n = strlen(string);
+    int status = 0;
     //printf("montando...\n");
     for(int i = 0; i < n; i++){
-        insere(a, string[i]);
-    }
-}
-
-int lerPilha(pilha *a){
-    int n, status;
-    n = 0;
-    //printf("lendo...\n");
-    while(a->topo != NULL){
-        char s = retira(a, &status);
-        if(s == ')') n = n+1;
-        else if(s == '(') n = n-1;
-        if(n < 0){
-            printf("incorrect\n");
-            return 1;
+        if(string[i] == '(') insere(a, string[i]);
+        if(string[i] == ')'){
+            retira(a, &status);
+            if(status == 1){
+                printf("incorrect\n");
+                return;
+            }
         }
     }
-    if(n != 0){
-        printf("incorrect\n");
-        return 1;
+    if(a->topo != NULL) printf("incorrect\n");
+    else printf("correct\n");
+}
+
+void limpa(pilha *a){
+    int status;
+    while(a->topo != NULL){
+        retira(a->topo, &status);
     }
-    printf("correct\n");
-    return 0;
 }
 
 int main(){
