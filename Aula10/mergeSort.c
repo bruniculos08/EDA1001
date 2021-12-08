@@ -17,7 +17,7 @@ int main(){
         case 1:
             printf("Digite o valor: ");
             scanf("%i", &i);
-            lista = insere_fim(lista, i);
+            lista = insere(lista, i);
             break;
         case 2:
             lista = liberar(lista);

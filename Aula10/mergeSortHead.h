@@ -4,7 +4,7 @@ struct Node{
 	int number;
 	node * next;
 };
-node *insere_fim(node *l, int valor);
+node *insere(node *l, int valor);
 node *insere_ordenado(node *l, int valor);
 int profundidade(node *l, int valor);
 void imprimir(node *l);
