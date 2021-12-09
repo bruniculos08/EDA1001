@@ -3,9 +3,11 @@ struct Node{
 	int number;
 	node * next;
 };
-node *trocanode(node *l, node *l1, node *l2);
-void imprimir(node *l);
-node *insereInicio(node *l);
-node *insereFinal(node *l);
+
+node *trocaNode(node *l, node *l1, node *l2);
+node *insere(node *l, int valor);
+node *moveInicio(node *l, node *v);
+node *moveFinal(node *l, node *v);
 node *split(node *l);
 node *quickSort(node *l);
+void imprime(node *l);

@@ -4,7 +4,8 @@
         "locale.h": "c",
         "stdlib.h": "c",
         "type_traits": "c",
-        "pilhahead.h": "c"
+        "pilhahead.h": "c",
+        "quicksorthead.h": "c"
     },
     "cmake.configureOnOpen": false
 }
