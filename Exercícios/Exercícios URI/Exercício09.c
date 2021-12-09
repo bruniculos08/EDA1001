@@ -19,7 +19,6 @@ char retira(pilha *a, int *status) {
     if(a->topo == NULL) {
         *status = 1;
         return '\0';
-        //return;
     }
     node *anterior = a->topo;
     a->topo = a->topo->next;
@@ -27,6 +26,11 @@ char retira(pilha *a, int *status) {
     free(anterior);
     *status = 0;
     return r;
+}
+
+void limpa(pilha *a){
+    int status;
+    while(a->topo != NULL) retira(a, &status);
 }
 
 int insere(pilha *a, char dado){
@@ -43,42 +47,52 @@ int insere(pilha *a, char dado){
 void expressao(pilha *a, char string[]){
     int n = strlen(string);
     int status = 0;
+    char temp = '\0', parenteses = '\0';
     //printf("montando...\n");
     for(int i = 0; i < n; i++){
-        if(string[i] == '(') insere(a, string[i]);
-        if(string[i] == ')'){
-            retira(a, &status);
-            if(status == 1){
-                printf("incorrect\n");
-                return;
+        if(string[i] == '+' || string[i] == '-' || string[i] == '*' || string[i] == '^'){
+            if(temp == '\0') temp = string[i];
+            else if(temp != '\0' && parenteses != '\0'){
+                insere(a, temp);
+                insere(a, parenteses);
+                parenteses = '\0';
+                temp = string[i];
             }
+            else if(temp != '\0' && parenteses == '\0'){
+                insere(a, temp);
+                temp = string[i];
+            }
+            else temp = string[i];
         }
+        else if(string[i] == '/') parenteses = string[i];
+        else if(string[i] != '(' && string[i] != ')') status = insere(a, string[i]);
+        //else status = insere(a, string[i]);
     }
-    if(a->topo != NULL) printf("incorrect\n");
-    else printf("correct\n");
-}
-
-void limpa(pilha *a){
-    int status;
-    while(a->topo != NULL){
-        retira(a->topo, &status);
-    }
+    pilha *b;
+    b = (pilha *)malloc(sizeof(pilha));
+    b->topo = NULL;
+    if(temp != '\0') insere(a, temp);
+    if(parenteses != '\0') insere(a, parenteses);
+    while(a->topo != NULL) status = insere(b, retira(a, &status));
+    while(b->topo != NULL) printf("%c", retira(b, &status));
+    printf("\n");
+    limpa(b);
 }
 
 int main(){
-    int i, status;
+    int n, status;
     char string[1000], letter;
     pilha *a;
     a = malloc(sizeof(pilha));
     a->topo = NULL;
-    //scanf("%i", &i);
-    for(int j = 0; j < 10000; j++){
+    scanf("%i", &n);
+    for(int j = 0; j < n; j++){
+            limpa(a);
             a->topo = NULL;
             string[0] = '\0';
             fflush(stdin);
             gets(string);
             if(string[0] == '\0') break;
             expressao(a, string);
-            //lerPilha(a);
     }
 }
