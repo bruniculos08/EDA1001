@@ -4,56 +4,6 @@
 #include "quickSortHead.h"
 
 
-node *trocanode(node *l, node *l1, node *l2){
-    node *aux;
-    aux = l;
-    node *a1;
-    a1 = NULL;
-    node *a2;
-    a2 = NULL;
-    node *a;
-    a = NULL;
-    if (l1 == NULL || l2 == NULL){
-        printf("Ponteiros inválidos.\n");
-        return l;
-    }
-    else if (l1 == l2) {
-        printf("Ponteiros iguais.\n");
-        return l;
-    }
-    while(aux != NULL){
-        if (aux->next == l1){
-            printf("1");
-            a1 = aux;
-        }
-        else if (aux->next == l2){
-            printf("2");
-            a2 = aux;
-        }
-        else if (aux == l1 && a == NULL){
-            printf("3");
-            a1 = NULL;
-        }
-        else if (aux == l2 && a == NULL){
-            printf("4");
-            a2 = NULL;
-        }
-        a = aux;
-        aux = aux->next;
-    }
-
-    aux = l1->next;
-    if(a1 != NULL && a1 != l2) a1->next = l2;
-    if (l2->next != l1) l1->next = l2->next;
-    else l1->next = l2;
-    if(a2 != NULL && a2 != l1) a2->next = l1;
-    if (aux != l2) l2->next = aux;
-    else l2->next = l1;
-    if(a1 == NULL) return l2;
-    if(a2 == NULL) return l1;
-    return l;
-}
-
 void imprime(node *l){
     node *p;
     p = l;
@@ -85,5 +35,109 @@ node *insere(node *l, int valor){
 }
 
 node *moveInicio(node *l, node *v){
-    
+    if(l == NULL || v == NULL) return l;
+    node *a;
+    a = l;
+    while(a != v && a->next != v) a = a->next;
+    if(a->next == v){
+        a->next = v->next;
+        v->next = l;
+        return v;
+    }
+    return l;
+}
+
+node *moveFinal(node *l, node *v){
+    if(l == NULL || v == NULL) return l;
+    node *a;
+    node *last;
+    a = l;
+    last = l;
+    while(l->next != NULL) l = l->next;
+    while(a != v && a->next != v) a = a->next;
+    if(a == v){
+        l = l->next;
+        v->next = NULL;
+        last->next = v;
+    }
+    if(a->next == v){
+        a->next = v->next;
+        last->next = v;
+        v->next = NULL;
+        return l;
+    }
+}
+
+node *split(node *l){
+    node *p;
+    node *p1;
+    node *p2;
+    if(l != NULL && l->next == NULL) return l;
+    p1 = l;
+    p = l;
+    if(l != NULL) p2 = l->next;
+    else p2 = NULL;
+    while(p2 != NULL && p2->next != NULL){
+        p1 = p1->next;
+        p2 = p2->next->next;
+    }
+    p = p1->next;
+    p1->next = NULL;
+    return p;
+}
+
+node *merge(node *l1, node *l2){
+    node *last;
+    last = l1;
+    while(last->next != NULL) last = last->next;
+    last->next = l2;
+    return l1;
+}
+
+node *quickSort(node *l, node *p){
+    p->next = NULL;
+    if(l->next == NULL) return l;
+    node *v;
+    node *vNew;
+    node * newL;
+    v = l;
+    vNew = NULL;
+    while(v != NULL && v != p){
+        if(v->number > p->number){
+            vNew = v->next;
+            l = moveFinal(l, v);
+            v = vNew;
+        }
+        v = v->next;
+    }
+    if(v == p) v = v->next;
+    vNew = p;
+    while(v != NULL){
+        if(v->number < p->number){
+            l = moveInicio(l, v);
+            v = vNew->next;
+        }
+        vNew = v;
+        v = v->next;
+    }
+    newL = p->next;
+    p->next = NULL;
+    l = quickSort(l, split(l));
+    newL = quickSort(newL, split(newL));
+    l = merge(l, newL);
+    return l;
+}
+
+void imprimir(node *l){
+    node *p;
+    p = l;
+    if (p == NULL){
+        printf("Lista vazia.\n");
+        return;
+    }
+    while(p != NULL){
+        printf("%i ", p->number);
+        p = p->next;
+    };
+    printf("\n");
 }

@@ -4,10 +4,10 @@ struct Node{
 	node * next;
 };
 
-node *trocaNode(node *l, node *l1, node *l2);
 node *insere(node *l, int valor);
 node *moveInicio(node *l, node *v);
 node *moveFinal(node *l, node *v);
 node *split(node *l);
-node *quickSort(node *l);
+node *merge(node *l1, node *l2);
+node *quickSort(node *l, node *p);
 void imprime(node *l);
