@@ -10,4 +10,5 @@ node *moveFinal(node *l, node *v);
 node *split(node *l);
 node *merge(node *l1, node *l2);
 node *quickSort(node *l, node *p);
+node *remover(node *l, int position);
 void imprime(node *l);

@@ -95,37 +95,77 @@ node *merge(node *l1, node *l2){
 }
 
 node *quickSort(node *l, node *p){
-    p->next = NULL;
+    //p->next = NULL;
     if(l->next == NULL) return l;
     node *v;
     node *vNew;
     node * newL;
     v = l;
     vNew = NULL;
+    printf("%i\n", p->number);
     while(v != NULL && v != p){
         if(v->number > p->number){
+            printf("Movendo para o final.\n");
             vNew = v->next;
             l = moveFinal(l, v);
             v = vNew;
         }
-        v = v->next;
+        if(v != p) v = v->next;
     }
     if(v == p) v = v->next;
     vNew = p;
     while(v != NULL){
         if(v->number < p->number){
+            printf("Movendo para o inicio.\n");
             l = moveInicio(l, v);
             v = vNew->next;
         }
         vNew = v;
         v = v->next;
     }
+    printf("Fim de quick sort.\n");
     newL = p->next;
     p->next = NULL;
     l = quickSort(l, split(l));
     newL = quickSort(newL, split(newL));
     l = merge(l, newL);
     return l;
+}
+
+node *remover(node *l, int position){
+    node *p;
+    node *a;
+    p = l;
+    if (p == NULL){
+        printf("Lista vazia.\n");
+        return l;
+    }
+    for (int i = 0; i < position; i++)
+    {
+        if(p->next == NULL){
+            printf("Posicao inexistente.\n");
+            return l;
+        }
+        a = p;
+        p = p->next;
+    }
+    a->next = p->next;
+    free(p);
+    return l;
+}
+
+node *limpar(node *l){
+    node *p;
+    node *a;
+    p = l;
+    if (p == NULL) return NULL;
+    while (p->next != NULL) {
+        a = p;
+        p = p->next;
+        free(a);
+    }
+    free(p);
+    return NULL;
 }
 
 void imprimir(node *l){
