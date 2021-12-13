@@ -53,7 +53,7 @@ node *moveFinal(node *l, node *v){
     node *last;
     a = l;
     last = l;
-    while(l->next != NULL) l = l->next;
+    while(last->next != NULL) last = last->next;
     while(a != v && a->next != v) a = a->next;
     if(a == v){
         l = l->next;
@@ -64,8 +64,8 @@ node *moveFinal(node *l, node *v){
         a->next = v->next;
         last->next = v;
         v->next = NULL;
-        return l;
     }
+    return l;
 }
 
 node *split(node *l){
@@ -82,7 +82,6 @@ node *split(node *l){
         p2 = p2->next->next;
     }
     p = p1->next;
-    p1->next = NULL;
     return p;
 }
 
@@ -94,41 +93,69 @@ node *merge(node *l1, node *l2){
     return l1;
 }
 
-node *quickSort(node *l, node *p){
-    //p->next = NULL;
-    if(l->next == NULL) return l;
-    node *v;
-    node *vNew;
-    node * newL;
-    v = l;
-    vNew = NULL;
-    printf("%i\n", p->number);
-    while(v != NULL && v != p){
-        if(v->number > p->number){
-            printf("Movendo para o final.\n");
-            vNew = v->next;
-            l = moveFinal(l, v);
-            v = vNew;
+node *half(node *l, node *r){
+    node *p;
+    p = split(l);
+    node *a;
+    a = l;
+    node *b;
+    node *last1;
+    last1 = NULL;
+    node *last2;
+    while(a != NULL && a != p){
+        if(a->number > p->number){
+            b = a;
+            a = a->next;
+            l = moveFinal(l, b);
         }
-        if(v != p) v = v->next;
+        else a = a->next;
     }
-    if(v == p) v = v->next;
-    vNew = p;
-    while(v != NULL){
-        if(v->number < p->number){
-            printf("Movendo para o inicio.\n");
-            l = moveInicio(l, v);
-            v = vNew->next;
+    if(a == p) a = a->next;
+    while(a != NULL){
+        if(a->number < p->number){
+            b = a;
+            a = a->next;
+            l = moveInicio(l, b);
         }
-        vNew = v;
-        v = v->next;
+        else a = a->next;
     }
-    printf("Fim de quick sort.\n");
-    newL = p->next;
+    b = NULL;
+    b = p->next;
     p->next = NULL;
-    l = quickSort(l, split(l));
-    newL = quickSort(newL, split(newL));
-    l = merge(l, newL);
+    *r = *l;
+    free(l);
+    if(b == NULL){
+        last1 = r;
+        while(last1 != p && last1->next != p){
+            last1 = last1->next;
+        }
+        last1->next = NULL;
+        return p;
+    }
+    return b;
+}
+
+node *quickSort(node *l){
+    node *p;
+    node *r;
+    r = (node *)malloc(sizeof(node));
+    r->next = NULL;
+    if(l != NULL && l->next != NULL){
+        p = half(l, r);
+        //printf("l %i\n", l->number);
+        l = r;
+        imprime(r);
+        imprime(p);
+        l = quickSort(l);
+        p = quickSort(p);
+        //if(l->next == NULL) printf("l->next NULL.\n");
+        //if(p->next == NULL) printf("p->next NULL.\n");
+        //l = merge(l, p);
+        //imprime(l);
+        //imprime(p);
+        l = merge(l, p);
+    }
+    //else printf("l ou l->next NULL.\n");
     return l;
 }
 

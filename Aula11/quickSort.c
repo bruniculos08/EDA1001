@@ -31,7 +31,7 @@ int main(){
             imprime(l);
             break;
         case 5:
-            l = quickSort(l, split(l));
+            l = quickSort(l);
             break;
         default:
             break;
