@@ -13,7 +13,7 @@ struct Pilha {
 };
 
 void insere(pilha *a, int j){
-    printf("inserindo...\n");
+    //printf("inserindo...\n");
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
     newNode->valor = j;
@@ -22,7 +22,7 @@ void insere(pilha *a, int j){
 }
 
 void retira(pilha *a){
-    printf("retirando...\n");
+    //printf("retirando...\n");
     if(a == NULL) return;
     if(a->topo == NULL) return;
     if(a->topo->next == NULL){
@@ -38,7 +38,6 @@ void retira(pilha *a){
 
 void insereN(pilha *a, int k){
     int n;
-    if(a == NULL) return;
     if(a->topo == NULL) return;
     n = a->topo->valor;
     for(int i = 0; i < k; i++){
@@ -51,6 +50,16 @@ void retiraN(pilha *a, int k){
     for(int i = 0; i < k && a->topo != NULL; i++) retira(a);
 }
 
+void imprime(pilha *a){
+    if(a->topo == NULL) printf("Lista vazia.\n");
+    node *l;
+    l = a->topo;
+    while(l != NULL){
+        printf("%i ", l->valor);
+        l = l->next;
+    }
+    printf("\n");
+}
 void limpa(pilha *a){
     while(a->topo != NULL) retira(a);
 }
@@ -65,19 +74,32 @@ int main(){
         a->topo = NULL;
         fflush(stdin);
         scanf("%i %i", &n, &m);
+        if(m == 0 && n == 0) break;
         for(int j = n+1; j >= 0; j--) insere(a, j);
         for(int j = 1; j <= n+1; j++){
-            if(a != NULL && a->topo != NULL) printf("topo %i\n", a->topo->valor);
-            if(a->topo == NULL || a == NULL) break;
-            else if(a->topo->valor == n+1) break;
-            else if(a->topo->valor < m) retiraN(a, 2*j-1);
-            else if(a->topo->valor > m) insereN(a, 2*j-1);
-            else{
+            //imprime(a);
+            if(a->topo == NULL){
+                printf("Don't make fun of me!\n");
+                break;
+            }
+            else if(a->topo->valor == n+1){
+                printf("Don't make fun of me!\n");
+                break;
+            }
+            else if(a->topo->valor == m){
                 printf("Let me try!\n");
+                break;
+            }
+            else if(a->topo->valor < m && a->topo->valor+2*j-1 < n+1) retiraN(a, 2*j-1);
+            else if(a->topo->valor < m && a->topo->valor-2*j+1 >= 0) insereN(a, 2*j-1);
+            else if(a->topo->valor > m && a->topo->valor-2*j+1 >= 0) insereN(a, 2*j-1);
+            else if(a->topo->valor > m && a->topo->valor+2*j-1 < n+1) retiraN(a, 2*j-1);
+            else{
+                printf("Don't make fun of me!\n");
                 break;
             }
         }
         if(a->topo == NULL) printf("Don't make fun of me!\n");
-        else if(a->topo->valor != m) printf("Don't make fun of me!\n");
+        //else if(a->topo->valor != m) printf("Don't make fun of me!\n");
     }
 }
