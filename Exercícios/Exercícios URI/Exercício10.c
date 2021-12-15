@@ -60,6 +60,7 @@ void imprime(pilha *a){
     }
     printf("\n");
 }
+
 void limpa(pilha *a){
     while(a->topo != NULL) retira(a);
 }
