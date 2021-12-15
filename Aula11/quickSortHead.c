@@ -101,7 +101,7 @@ node *half(node *l, node *r){
     node *b;
     node *last1;
     last1 = NULL;
-    node *last2;
+    //node *last2;
     while(a != NULL && a != p){
         if(a->number > p->number){
             b = a;

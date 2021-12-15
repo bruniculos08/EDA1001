@@ -47,24 +47,37 @@ int insere(pilha *a, char dado){
 void expressao(pilha *a, char string[]){
     int n = strlen(string);
     int status = 0;
-    char temp = '\0', parenteses = '\0';
+    char temp = '\0', barra = '\0';
     //printf("montando...\n");
     for(int i = 0; i < n; i++){
-        if(string[i] == '+' || string[i] == '-' || string[i] == '*' || string[i] == '^'){
-            if(temp == '\0') temp = string[i];
-            else if(temp != '\0' && parenteses != '\0'){
+        if(string[i] == '+' || string[i] == '-' || string[i] == '*' || string[i] == '^' || string[i] == '/'){
+            if(string[i] == '/' && temp != '\0'){
                 insere(a, temp);
-                insere(a, parenteses);
-                parenteses = '\0';
+                if(barra != '\0') insere(a, barra);
+                barra = string[i];
+                temp = '\0';
+            }
+            else if(string[i] == '/' && temp == '\0') barra = string[i];
+            else if(barra == '/' && temp != '\0'){
+                insere(a, temp);
+                insere(a, barra);
+                barra = '\0';
                 temp = string[i];
             }
-            else if(temp != '\0' && parenteses == '\0'){
+            else if(temp == '\0') temp = string[i];
+            else if(temp != '\0' && barra != '\0'){
+                insere(a, temp);
+                insere(a, barra);
+                barra = '\0';
+                temp = string[i];
+            }
+            else if(temp != '\0' && barra == '\0'){
                 insere(a, temp);
                 temp = string[i];
             }
             else temp = string[i];
         }
-        else if(string[i] == '/') parenteses = string[i];
+        //else if(string[i] == '/') barra = string[i];
         else if(string[i] != '(' && string[i] != ')') status = insere(a, string[i]);
         //else status = insere(a, string[i]);
     }
@@ -72,7 +85,7 @@ void expressao(pilha *a, char string[]){
     b = (pilha *)malloc(sizeof(pilha));
     b->topo = NULL;
     if(temp != '\0') insere(a, temp);
-    if(parenteses != '\0') insere(a, parenteses);
+    if(barra != '\0') insere(a, barra);
     while(a->topo != NULL) status = insere(b, retira(a, &status));
     while(b->topo != NULL) printf("%c", retira(b, &status));
     printf("\n");
