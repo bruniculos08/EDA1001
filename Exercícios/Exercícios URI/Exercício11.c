@@ -73,7 +73,6 @@ int main(){
         for(int i = 0; i < n; i++){
             fflush(stdin);
             scanf("%c", &temp);
-            //temp = getchar();
             insere(resultado, temp);
         }
         for(int i = 0; i < n; i++){
@@ -90,8 +89,8 @@ int main(){
             insere(b, resultado->topo->nome);
             retira(resultado);
         }
-        //imprime(a);
-        //imprime(b);
+        imprime(a);
+        imprime(b);
         limpa(resultado);
         for(int i = 0; i < 2*n; i++){
             if(a->topo != NULL && b->topo != NULL){

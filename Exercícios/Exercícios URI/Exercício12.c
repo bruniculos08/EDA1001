@@ -70,54 +70,64 @@ int main(){
         limpa(resultado);
         scanf("%i", &n);
         if(n == 0) break;
-        for(int i = 0; i < n; i++){
-            insere(a, n-i);
-            fflush(stdin);
-            scanf("%i", &temp);
-            insere(resultado, temp);
-        }
-        for(int i = 0; i < n; i++){
-            insere(b, resultado->topo->valor);
-            retira(resultado);
-        }
-        imprime(a);
-        imprime(b);
-        limpa(resultado);
-        for(int i = 0; i < 2*n; i++){
-            if(a->topo != NULL && b->topo != NULL){
-                if(resultado->topo != NULL && resultado->topo->valor == b->topo->valor){
-                    //printf("R");
-                    retira(resultado);
-                    retira(b);
+        do
+        {
+            for(int i = 0; i < n; i++){
+                insere(a, n-i);
+                //fflush(stdin);
+                scanf("%i", &temp);
+                if(temp == 0){
+                    //limpa(a);
+                    //limpa(resultado);
+                    break;
                 }
-                else if(a->topo->valor == b->topo->valor){
-                    //printf("IR");
-                    retira(a);
-                    retira(b);
-                }
-                else if(a->topo->valor != b->topo->valor){
+                insere(resultado, temp);
+            }
+            for(int i = 0; i < n; i++){
+                if(temp == 0) break;
+                insere(b, resultado->topo->valor);
+                retira(resultado);
+            }
+            //imprime(a);
+            //imprime(b);
+            limpa(resultado);
+            for(int i = 0; i < 2*n; i++){
+                if(temp == 0) break;
+                else if(a->topo != NULL && b->topo != NULL){
                     if(resultado->topo != NULL && resultado->topo->valor == b->topo->valor){
                         //printf("R");
                         retira(resultado);
                         retira(b);
                     }
-                else{
-                        //printf("I");
-                        insere(resultado, a->topo->valor);
+                    else if(a->topo->valor == b->topo->valor){
+                        //printf("IR");
                         retira(a);
+                        retira(b);
+                    }
+                    else if(a->topo->valor != b->topo->valor){
+                        if(resultado->topo != NULL && resultado->topo->valor == b->topo->valor){
+                            //printf("R");
+                            retira(resultado);
+                            retira(b);
+                        }
+                        else{
+                            //printf("I");
+                            insere(resultado, a->topo->valor);
+                            retira(a);
+                            }
+                        }
+                    }
+                    else if(resultado->topo != NULL && b->topo != NULL){
+                        if(resultado->topo->valor == b->topo->valor){
+                            //printf("R");
+                            retira(resultado);
+                            retira(b);
+                        }
                     }
                 }
-            }
-            else if(resultado->topo != NULL && b->topo != NULL){
-                if(resultado->topo->valor == b->topo->valor){
-                    //printf("R");
-                    retira(resultado);
-                    retira(b);
-                }
-            }
-        }
-        if(resultado->topo != NULL) printf("No");
-        else printf("Yes");
-        printf("\n");
+            if(resultado->topo != NULL) printf("No\n");
+            else if(temp != 0) printf("Yes\n");
+        } while (temp != 0);
+        
     } while (n != 0);
 }
