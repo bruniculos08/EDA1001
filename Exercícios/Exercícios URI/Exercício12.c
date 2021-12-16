@@ -3,7 +3,7 @@
 
 typedef struct node node;
 struct node{
-    char nome;
+    int valor;
     node *next;
 };
 
@@ -12,11 +12,11 @@ struct Pilha {
     node *topo;
 };
 
-void insere(pilha *a, char h){
+void insere(pilha *a, int h){
     //printf("inserindo...\n");
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
-    newNode->nome = h;
+    newNode->valor = h;
     newNode->next = a->topo;
     a->topo = newNode;
 }
@@ -32,7 +32,7 @@ void retira(pilha *a){
     }
     node *anterior = a->topo;
     a->topo = a->topo->next;
-    int r = anterior->nome;
+    int r = anterior->valor;
     free(anterior);
 }
 
@@ -41,7 +41,7 @@ void imprime(pilha *a){
     node *l;
     l = a->topo;
     while(l != NULL){
-        printf("%c ", l->nome);
+        printf("%i ", l->valor);
         l = l->next;
     }
     printf("\n");
@@ -53,7 +53,7 @@ void limpa(pilha *a){
 
 int main(){
     int n = 1;
-    char temp;
+    int temp;
     pilha *a;
     a = (pilha *)malloc(sizeof(pilha));
     a->topo = NULL;
@@ -71,62 +71,53 @@ int main(){
         scanf("%i", &n);
         if(n == 0) break;
         for(int i = 0; i < n; i++){
+            insere(a, n-i);
             fflush(stdin);
-            scanf("%c", &temp);
-            //temp = getchar();
+            scanf("%i", &temp);
             insere(resultado, temp);
         }
         for(int i = 0; i < n; i++){
-            insere(a, resultado->topo->nome);
+            insere(b, resultado->topo->valor);
             retira(resultado);
         }
-        for(int i = 0; i < n; i++){
-            fflush(stdin);
-            scanf("%c", &temp);
-            //temp = getchar();
-            insere(resultado, temp);
-        }
-        for(int i = 0; i < n; i++){
-            insere(b, resultado->topo->nome);
-            retira(resultado);
-        }
-        //imprime(a);
-        //imprime(b);
+        imprime(a);
+        imprime(b);
         limpa(resultado);
         for(int i = 0; i < 2*n; i++){
             if(a->topo != NULL && b->topo != NULL){
-                if(resultado->topo != NULL && resultado->topo->nome == b->topo->nome){
-                    printf("R");
+                if(resultado->topo != NULL && resultado->topo->valor == b->topo->valor){
+                    //printf("R");
                     retira(resultado);
                     retira(b);
                 }
-                else if(a->topo->nome == b->topo->nome){
-                    printf("IR");
+                else if(a->topo->valor == b->topo->valor){
+                    //printf("IR");
                     retira(a);
                     retira(b);
                 }
-                else if(a->topo->nome != b->topo->nome){
-                    if(resultado->topo != NULL && resultado->topo->nome == b->topo->nome){
-                        printf("R");
+                else if(a->topo->valor != b->topo->valor){
+                    if(resultado->topo != NULL && resultado->topo->valor == b->topo->valor){
+                        //printf("R");
                         retira(resultado);
                         retira(b);
                     }
                 else{
-                        printf("I");
-                        insere(resultado, a->topo->nome);
+                        //printf("I");
+                        insere(resultado, a->topo->valor);
                         retira(a);
                     }
                 }
             }
             else if(resultado->topo != NULL && b->topo != NULL){
-                if(resultado->topo->nome == b->topo->nome){
-                    printf("R");
+                if(resultado->topo->valor == b->topo->valor){
+                    //printf("R");
                     retira(resultado);
                     retira(b);
                 }
             }
         }
-        if(resultado->topo != NULL) printf(" Impossible");
+        if(resultado->topo != NULL) printf("No");
+        else printf("Yes");
         printf("\n");
     } while (n != 0);
 }
