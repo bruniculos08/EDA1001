@@ -14,6 +14,7 @@ struct Pilha {
 };
 
 void insere(pilha *a, char h){
+    //printf("inserindo...\n");
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
     newNode->nome = h;
@@ -22,6 +23,8 @@ void insere(pilha *a, char h){
 }
 
 void retira(pilha *a){
+    //printf("retirando...\n");
+    if(a == NULL) return;
     if(a->topo == NULL) return;
     if(a->topo->next == NULL){
         free(a->topo);
@@ -30,6 +33,7 @@ void retira(pilha *a){
     }
     node *anterior = a->topo;
     a->topo = a->topo->next;
+    int r = anterior->nome;
     free(anterior);
 }
 
@@ -49,7 +53,7 @@ int verifica(pilha *a, char string[]){
     for(int i = 0; i < 4; i++){
         if(string[i] != b->nome){
             r = 1;
-            return 1;
+            break;
         }
         b = b->next;
     }
@@ -79,6 +83,7 @@ int main(){
         scanf("%i", &n);
     } while (n < 0 || n > 100);
     char *string;
+    string = (char *)malloc(4*sizeof(char));
     pilha *a;
     node *b;
     a = (pilha*)malloc(sizeof(pilha));
@@ -86,7 +91,6 @@ int main(){
     insereN(a, 4, "FACE");
     for(int i = 0; i < n; i++){
         fflush(stdin);
-        string = (char *)malloc(4*sizeof(char));
         scanf("%c %c %c %c", &string[0], &string[1], &string[2], &string[3]);
         if(verifica(a, string) == 0){
             k++;
@@ -94,7 +98,8 @@ int main(){
             if(a->topo == NULL) insereN(a, 4, "FACE");
         }
         else insereN(a, 4, string);
-        if(a->topo == NULL) insereN(a, 4, "FACE");
+        //printf("Lista: ");
+        //imprime(a);
     }
     printf("%i\n", k);
 }

@@ -14,6 +14,7 @@ struct Pilha {
 };
 
 void insere(pilha *a, char h){
+    //printf("inserindo...\n");
     node *newNode;
     newNode = (node *)malloc(sizeof(node));
     newNode->nome = h;
@@ -22,6 +23,8 @@ void insere(pilha *a, char h){
 }
 
 void retira(pilha *a){
+    //printf("retirando...\n");
+    if(a == NULL) return;
     if(a->topo == NULL) return;
     if(a->topo->next == NULL){
         free(a->topo);
@@ -30,30 +33,8 @@ void retira(pilha *a){
     }
     node *anterior = a->topo;
     a->topo = a->topo->next;
+    int r = anterior->nome;
     free(anterior);
-}
-
-void insereN(pilha *a, int k, char *string){
-    for(int i = 0; i < k; i++) insere(a, string[i]);
-}
-
-void retiraN(pilha *a, int k){
-    for(int i = 0; i < k && a->topo != NULL; i++) retira(a);
-}
-
-int verifica(pilha *a, char string[]){
-    if(a->topo == NULL) return 1;
-    node *b;
-    b = a->topo;
-    int r = 0;
-    for(int i = 0; i < 4; i++){
-        if(string[i] != b->nome){
-            r = 1;
-            return 1;
-        }
-        b = b->next;
-    }
-    return r;
 }
 
 void imprime(pilha *a){
@@ -72,29 +53,29 @@ void limpa(pilha *a){
 }
 
 int main(){
-    int k, n;
-    k = 0;
-    do
-    {
-        scanf("%i", &n);
-    } while (n < 0 || n > 100);
-    char *string;
+    int n;
     pilha *a;
-    node *b;
     a = (pilha*)malloc(sizeof(pilha));
     a->topo = NULL;
-    insereN(a, 4, "FACE");
+    char *string;
+    scanf("%i", &n);
     for(int i = 0; i < n; i++){
+        int k = 0;
+        limpa(a);
+        string = (char*)malloc(sizeof(char)*1000);
         fflush(stdin);
-        string = (char *)malloc(4*sizeof(char));
-        scanf("%c %c %c %c", &string[0], &string[1], &string[2], &string[3]);
-        if(verifica(a, string) == 0){
-            k++;
-            retiraN(a, 4);
-            if(a->topo == NULL) insereN(a, 4, "FACE");
+        scanf("%s", string);
+        int h = strlen(string);
+        for(int j = 0; j < h; j++){
+            if(a->topo != NULL){
+                if(string[j] == '>' && a->topo->nome == '<'){
+                    retira(a);
+                    k++;
+                }
+                else if(string[j] == '<' || string[j] == '>') insere(a, string[j]);
+            }
+            else if(string[j] == '<' || string[j] == '>') insere(a, string[j]);
         }
-        else insereN(a, 4, string);
-        if(a->topo == NULL) insereN(a, 4, "FACE");
+        printf("%i\n", k);
     }
-    printf("%i\n", k);
 }
