@@ -41,25 +41,10 @@ raiz *insere(raiz *l, int valor){
 }
 
 raiz *remover(raiz *l, int valor){
-    raiz *node = buscar(l, valor);
-    if(node == NULL) return l;
     raiz *p = buscar_pai(l, valor);
-    if(node->esq == NULL && node->dir == NULL){
-        if(p->dir == node) p->dir = NULL;
-        else p->esq = NULL;
-        free(node);
-        return l;
-    }
-    else if(node->esq != NULL && node->dir == NULL){
-        if(p->esq == node) p->esq = node->esq;
-        else p->dir = node->esq;
-        free(node);
-        return l;
-    }
-    else if(node->dir != NULL && node->esq == NULL){
-        if(p->esq == node) p->esq = node->dir;
-        else p->dir = node->dir;
-        free(node);
-        return l;
-    }
+    if(p == NULL) return NULL;
+    else if(p->valor == valor) p = remover_node(p);
+    else if(p->esq == valor) p->esq = remover_node(p->esq);
+    else p->dir = remover_node(p->dir);
+    return l;
 }
