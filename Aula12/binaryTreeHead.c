@@ -48,3 +48,41 @@ raiz *remover(raiz *l, int valor){
     else p->dir = remover_node(p->dir);
     return l;
 }
+
+raiz *remover_node(raiz *node){
+    raiz *f, *p; // o ponteiro *p aponta para o pai do nó que queremos mexer e *f para algum dos nós filhos de *node
+    if(node->esq == NULL && node->dir == NULL){
+        free(node);
+        return NULL;
+    }
+    else if(node->dir == NULL){
+        f = node->esq;
+        free(node);
+        return f;
+    }
+    else if(node->esq == NULL){
+        f = node->dir;
+        free(node);
+        return f;
+    }
+    p = node;
+    f = node->dir;
+    while(f != NULL){ // o ponteiro *f tem que apontar para o sucessor de *node, enquanto *p aponta para o pai desse sucessor
+        p = f;
+        f = f->esq;
+    }
+    if(p != node){
+        p->esq = f->dir;
+        f->dir = node->dir;
+    }
+    f->esq = node->esq;
+    free(node);
+    return f;
+}
+
+void imprime(raiz *l){
+    if(l == NULL) return;
+    imprime(l->esq);
+    printf("%i ", l->valor);
+    imprime(l->dir);
+}
