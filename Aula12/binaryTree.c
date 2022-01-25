@@ -10,7 +10,7 @@ int main(){
     int n, i;
     do
     {
-        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- imprimir\n");
+        printf("Digite a opcao desejada:\n1- inserir\n2- remover\n3- buscar\n4- imprimir\n");
         scanf("%i", &n);
         switch(n)
         {
@@ -23,6 +23,10 @@ int main(){
             l = remover(l, i);
             break;
         case 3:
+            printf("Digite o valor: ");
+            scanf("%i", &i);
+            buscar(l, i);
+        case 4:
             imprime(l);
             break;
         default:

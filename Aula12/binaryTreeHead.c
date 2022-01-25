@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <binaryTreeHead.h>
+#include "binaryTreeHead.h"
 
 raiz *buscar(raiz *l, int valor){
     if(l == NULL) return NULL;
@@ -35,16 +35,18 @@ raiz *insere(raiz *l, int valor){
         l->valor = valor;
         l->esq = NULL;
         l->dir = NULL;
+        return l;
     }
     else if(valor <= l->valor) l->esq = insere(l->esq, valor);
     else l->dir = insere(l->dir, valor);
+    return l;
 }
 
 raiz *remover(raiz *l, int valor){
     raiz *p = buscar_pai(l, valor);
     if(p == NULL) return NULL;
     else if(p->valor == valor) p = remover_node(p);
-    else if(p->esq == valor) p->esq = remover_node(p->esq);
+    else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
     else p->dir = remover_node(p->dir);
     return l;
 }
@@ -83,6 +85,6 @@ raiz *remover_node(raiz *node){
 void imprime(raiz *l){
     if(l == NULL) return;
     imprime(l->esq);
-    printf("%i ", l->valor);
+    printf("%i\n", l->valor);
     imprime(l->dir);
 }

@@ -6,5 +6,8 @@ struct Raiz{
 };
 raiz *insere(raiz *l, int valor);
 raiz *remover(raiz *l, int valor);
+raiz *remover_node(raiz *node);
+raiz *buscar(raiz *l, int valor);
+raiz *buscar_pai(raiz *l, int valor);
 int altura(raiz *l);
 int profundidade(raiz *l, raiz *v);
