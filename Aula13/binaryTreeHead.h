@@ -10,4 +10,5 @@ raiz *remover_node(raiz *node);
 raiz *buscar(raiz *l, int valor);
 raiz *buscar_pai(raiz *l, int valor);
 int altura(raiz *l);
-int profundidade(raiz *l, raiz *v);
+int profundidade(raiz *l, int valor);
+int teste_AVL(raiz *l);

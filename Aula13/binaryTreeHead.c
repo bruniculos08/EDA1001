@@ -15,7 +15,15 @@ int altura(raiz *l){
     return h;
 }
 
-int profundidade(raiz *l, raiz *v){}
+int profundidade(raiz *l, int valor){
+    int p = 0;
+    while(l->valor != valor){
+        if(l->valor < valor) l = l->dir;
+        else l = l->dir;
+        p++;
+    }
+    return p;
+}
 
 raiz *buscar(raiz *l, int valor){
     if(l == NULL) return NULL;
@@ -103,3 +111,5 @@ void imprime(raiz *l){
     printf("%i\n", l->valor);
     imprime(l->dir);
 }
+
+int teste_AVL(raiz *l){}
