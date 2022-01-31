@@ -1,6 +1,7 @@
 typedef struct Raiz raiz;
 struct Raiz{
     int valor;
+    int bal;
     raiz *dir;
     raiz *esq;
 };

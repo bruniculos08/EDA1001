@@ -56,12 +56,19 @@ raiz *insere(raiz *l, int valor){
     if(l == NULL){
         l = malloc(sizeof(raiz));
         l->valor = valor;
+        l->bal = abs(altura(l->esq)-altura(l->dir));
         l->esq = NULL;
         l->dir = NULL;
         return l;
     }
-    else if(valor <= l->valor) l->esq = insere(l->esq, valor);
-    else l->dir = insere(l->dir, valor);
+    else if(valor <= l->valor){
+        l->esq = insert(l->esq, valor);
+        l->bal = abs(altura(l->esq)-altura(l->dir));
+    }
+    else{
+        l->dir = insere(l->dir, valor);
+        l->bal = abs(altura(l->esq)-altura(l->dir));
+    }
     return l;
 }
 
@@ -71,6 +78,11 @@ raiz *remover(raiz *l, int valor){
     else if(p->valor == valor) p = remover_node(p);
     else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
     else p->dir = remover_node(p->dir);
+    while(buscar_pai(l, p->valor) != l){
+        p->bal = abs(altura(l->esq)-altura(l->dir));
+        p = buscar_pai(l, p->valor);
+    }
+    l->bal = abs(altura(l->dir)-altura(l->esq));
     return l;
 }
 
@@ -99,8 +111,10 @@ raiz *remover_node(raiz *node){
     if(p != node){
         p->esq = f->dir;
         f->dir = node->dir;
+        p->bal = abs(altura(p->esq)-altura(p->dir));
     }
     f->esq = node->esq;
+    f->bal = abs(altura(f->esq)-altura(f->dir));
     free(node);
     return f;
 }
