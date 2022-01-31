@@ -56,19 +56,37 @@ raiz *insere(raiz *l, int valor){
     if(l == NULL){
         l = malloc(sizeof(raiz));
         l->valor = valor;
-        l->bal = abs(altura(l->esq)-altura(l->dir));
         l->esq = NULL;
         l->dir = NULL;
+        l->bal = altura(l->esq)-altura(l->dir);
         return l;
     }
     else if(valor <= l->valor){
-        l->esq = insert(l->esq, valor);
-        l->bal = abs(altura(l->esq)-altura(l->dir));
+        l->esq = insere(l->esq, valor);
+        l->bal = altura(l->esq)-altura(l->dir);
     }
     else{
         l->dir = insere(l->dir, valor);
-        l->bal = abs(altura(l->esq)-altura(l->dir));
+        l->bal = altura(l->esq)-altura(l->dir);
     }
+    return l;
+}
+
+raiz *balancear(raiz *l, raiz *node){
+    node = buscar_pai(l, node->valor);
+    printf("balanceamento %i.\n", node->valor);
+    while(node != l){
+        node->bal = altura(node->esq)-altura(node->dir);
+        if(node->bal >= 2) node->esq = rotaciona_dir(node->esq);
+        else if(node->bal <= -2) node->esq = rotaciona_esq(node->esq);
+        if(node->bal >= 2) node->dir = rotaciona_dir(node->dir);
+        else if(node->bal <= -2) node->dir = rotaciona_esq(node->dir);
+        node = buscar_pai(l, node->valor);
+        printf("balanceamento %i.\n", node->valor);
+    }
+    l->bal = altura(l->esq)-altura(l->dir);
+    if(l->bal >= 2) l = rotaciona_dir(l);
+    else if(l->bal <= -2) l = rotaciona_esq(l);
     return l;
 }
 
@@ -78,11 +96,6 @@ raiz *remover(raiz *l, int valor){
     else if(p->valor == valor) p = remover_node(p);
     else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
     else p->dir = remover_node(p->dir);
-    while(buscar_pai(l, p->valor) != l){
-        p->bal = abs(altura(l->esq)-altura(l->dir));
-        p = buscar_pai(l, p->valor);
-    }
-    l->bal = abs(altura(l->dir)-altura(l->esq));
     return l;
 }
 
@@ -121,8 +134,8 @@ raiz *remover_node(raiz *node){
 
 void imprime(raiz *l){
     if(l == NULL) return;
+    printf("%i\n", l->valor);    
     imprime(l->esq);
-    printf("%i\n", l->valor);
     imprime(l->dir);
 }
 
@@ -130,4 +143,18 @@ int teste_AVL(raiz *l){
     if(l == NULL) return 0;
     else if(abs(altura(l->esq)-altura(l->dir)) > 1) return 1;
     else return (teste_AVL(l->esq)+teste_AVL(l->dir));
+}
+
+raiz *rotaciona_esq(raiz *x){
+    raiz *y = x->dir;
+    x->dir = y->esq;
+    y->esq = x;
+    return y;
+}
+
+raiz *rotaciona_dir(raiz *x){
+    raiz *y = x->esq;
+    x->esq = y->dir;
+    y->dir = x;
+    return y;
 }

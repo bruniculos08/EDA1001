@@ -18,6 +18,7 @@ int main(){
             printf("Digite o valor: ");
             scanf("%i", &i);
             l = insere(l, i);
+            l = balancear(l, buscar(l, i));
             break;
         case 2:
             l = remover(l, i);

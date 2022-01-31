@@ -14,3 +14,6 @@ int altura(raiz *l);
 int profundidade(raiz *l, int valor);
 int teste_AVL(raiz *l);
 void imprime(raiz *l);
+raiz *rotaciona_esq(raiz *x);
+raiz *rotaciona_dir(raiz *x);
+raiz *balancear(raiz *l, raiz *node);
