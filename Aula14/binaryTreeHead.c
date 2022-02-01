@@ -79,7 +79,8 @@ raiz *balancear(raiz *l, raiz *node){
         node->bal = altura(node->esq)-altura(node->dir);
         if(node->bal >= 2){
             if(node->esq != NULL){
-                if(node->esq->bal >= 2) node = rotaciona_dir(node);
+                printf("Here.\n");
+                if(node->esq->bal >= 0) node = rotaciona_dir(node);
                 else{
                     node->esq = rotaciona_esq(node->esq);
                     node = rotaciona_dir(node);
@@ -97,6 +98,8 @@ raiz *balancear(raiz *l, raiz *node){
             }
             else node->esq = rotaciona_dir(node->esq);
         }
+        node->bal = altura(node->esq)-altura(node->dir);
+        imprime(l);
         node = buscar_pai(l, node->valor);
         printf("balanceamento %i.\n", node->valor);
     }
@@ -105,6 +108,13 @@ raiz *balancear(raiz *l, raiz *node){
     else if(l->bal <= -2) l = rotaciona_esq(l);
     return l;
 }
+
+//raiz *balancear(raiz *l, raiz *node){
+//    raiz *p = buscar_pai(l, node->valor);
+    //É necessário se percorrer a àrvore a partir do pai do nó qual se deseja rotacionar
+    //pois quando houver rotação o nó pai terá que apontar para seu novo nó filho
+//    while(node != l){}
+//}
 
 raiz *remover(raiz *l, int valor){
     raiz *p = buscar_pai(l, valor);
