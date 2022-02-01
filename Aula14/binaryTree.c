@@ -21,7 +21,11 @@ int main(){
             l = balancear(l, buscar(l, i));
             break;
         case 2:
+            printf("Digite o valor: ");
+            scanf("%i", &i);
+            raiz *p = buscar_pai(l, i);
             l = remover(l, i);
+            l = balancear(l, buscar(l, p->valor));
             break;
         case 3:
             printf("Digite o valor: ");
