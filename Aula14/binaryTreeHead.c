@@ -77,10 +77,26 @@ raiz *balancear(raiz *l, raiz *node){
     printf("balanceamento %i.\n", node->valor);
     while(node != l){
         node->bal = altura(node->esq)-altura(node->dir);
-        if(node->bal >= 2) node->esq = rotaciona_dir(node->esq);
-        else if(node->bal <= -2) node->esq = rotaciona_esq(node->esq);
-        if(node->bal >= 2) node->dir = rotaciona_dir(node->dir);
-        else if(node->bal <= -2) node->dir = rotaciona_esq(node->dir);
+        if(node->bal >= 2){
+            if(node->esq != NULL){
+                if(node->esq->bal >= 2) node = rotaciona_dir(node);
+                else{
+                    node->esq = rotaciona_esq(node->esq);
+                    node = rotaciona_dir(node);
+                }
+            }
+            else node->esq = rotaciona_dir(node->esq);
+        }
+        else if(node->bal <= -2){
+            if(node->dir != NULL){
+                if(node->dir->bal <= 0) node = rotaciona_esq(node);
+                else{
+                    node->dir = rotaciona_dir(node->dir);
+                    node = rotaciona_esq(node);
+                }
+            }
+            else node->esq = rotaciona_dir(node->esq);
+        }
         node = buscar_pai(l, node->valor);
         printf("balanceamento %i.\n", node->valor);
     }
