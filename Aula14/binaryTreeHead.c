@@ -52,6 +52,16 @@ raiz *buscar_pai(raiz *l, int valor){
     return NULL;
 }
 
+raiz *buscar_descendente(raiz *node){
+    while(node->esq != NULL || node->dir != NULL){
+        node->bal = altura(node->esq)-altura(node->dir);
+        if(node->bal == 0) break;
+        else if(node->bal > 0) node = node->esq;
+        else node = node->dir;
+    }
+    return node;
+}
+
 raiz *insere(raiz *l, int valor){
     if(l == NULL){
         l = malloc(sizeof(raiz));
@@ -73,53 +83,56 @@ raiz *insere(raiz *l, int valor){
 }
 
 raiz *balancear(raiz *l, raiz *node){
+    node->bal = altura(node->esq)-altura(node->dir);
     node = buscar_pai(l, node->valor);
-    printf("balanceamento %i.\n", node->valor);
-    while(node != l){
+    raiz *p = buscar_pai(l, node->valor);
+    //É necessário se percorrer a àrvore a partir do pai do nó qual se deseja rotacionar
+    //pois quando houver rotação o nó pai terá que apontar para seu novo nó filho
+    while(node != l || p != NULL){
         node->bal = altura(node->esq)-altura(node->dir);
         if(node->bal >= 2){
             if(node->esq != NULL){
-                printf("Here.\n");
-                if(node->esq->bal >= 0) node = rotaciona_dir(node);
+                if(node->esq->bal >= 0){
+                    if(p == node) p = rotaciona_dir(node);
+                    else if(p->esq == node) p->esq = rotaciona_dir(node);
+                    else p->dir = rotaciona_dir(node);
+                }
                 else{
                     node->esq = rotaciona_esq(node->esq);
-                    node = rotaciona_dir(node);
+                    if(p == node) p = rotaciona_dir(node);
+                    else if(p->esq == node) p->esq = rotaciona_dir(node);
+                    else p->dir = rotaciona_dir(node);
                 }
             }
             else node->esq = rotaciona_dir(node->esq);
         }
         else if(node->bal <= -2){
             if(node->dir != NULL){
-                if(node->dir->bal <= 0) node = rotaciona_esq(node);
+                if(node->dir->bal <= 0){
+                    if(p == node) p = rotaciona_esq(node);
+                    else if(p->esq == node) p->esq = rotaciona_esq(node);
+                    else p->dir = rotaciona_esq(node);
+                }
                 else{
                     node->dir = rotaciona_dir(node->dir);
-                    node = rotaciona_esq(node);
+                    if(p == node) p = rotaciona_esq(node);
+                    else if(p->esq == node) p->esq = rotaciona_esq(node);
+                    else p->dir = rotaciona_esq(node);
                 }
             }
             else node->esq = rotaciona_dir(node->esq);
         }
-        node->bal = altura(node->esq)-altura(node->dir);
-        imprime(l);
-        node = buscar_pai(l, node->valor);
-        printf("balanceamento %i.\n", node->valor);
+        if(node == l) break;
+        node = p;
+        p = buscar_pai(l, p->valor);
     }
-    l->bal = altura(l->esq)-altura(l->dir);
-    if(l->bal >= 2) l = rotaciona_dir(l);
-    else if(l->bal <= -2) l = rotaciona_esq(l);
-    return l;
+    return p;
 }
-
-//raiz *balancear(raiz *l, raiz *node){
-//    raiz *p = buscar_pai(l, node->valor);
-    //É necessário se percorrer a àrvore a partir do pai do nó qual se deseja rotacionar
-    //pois quando houver rotação o nó pai terá que apontar para seu novo nó filho
-//    while(node != l){}
-//}
 
 raiz *remover(raiz *l, int valor){
     raiz *p = buscar_pai(l, valor);
     if(p == NULL) return NULL;
-    else if(p->valor == valor) p = remover_node(p);
+    else if(p->valor == valor) l = remover_node(p);
     else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
     else p->dir = remover_node(p->dir);
     return l;
@@ -143,17 +156,17 @@ raiz *remover_node(raiz *node){
     }
     p = node;
     f = node->dir;
-    while(f != NULL){ // o ponteiro *f tem que apontar para o sucessor de *node, enquanto *p aponta para o pai desse sucessor
+    while(f->esq != NULL){ // o ponteiro *f tem que apontar para o sucessor de *node, enquanto *p aponta para o pai desse sucessor
         p = f;
         f = f->esq;
     }
     if(p != node){
         p->esq = f->dir;
         f->dir = node->dir;
-        p->bal = abs(altura(p->esq)-altura(p->dir));
+        p->bal = altura(p->esq)-altura(p->dir);
     }
     f->esq = node->esq;
-    f->bal = abs(altura(f->esq)-altura(f->dir));
+    f->bal = altura(f->esq)-altura(f->dir);
     free(node);
     return f;
 }
@@ -172,6 +185,7 @@ int teste_AVL(raiz *l){
 }
 
 raiz *rotaciona_esq(raiz *x){
+    if(x == NULL) return NULL;
     raiz *y = x->dir;
     x->dir = y->esq;
     y->esq = x;
@@ -179,6 +193,7 @@ raiz *rotaciona_esq(raiz *x){
 }
 
 raiz *rotaciona_dir(raiz *x){
+    if(x == NULL) return NULL;
     raiz *y = x->esq;
     x->esq = y->dir;
     y->dir = x;
