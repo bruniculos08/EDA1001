@@ -24,7 +24,7 @@ int main(){
             printf("Digite o valor: ");
             scanf("%i", &i);
             l = remover(l, i);
-            l = balancear(l, buscar_descendente(l));
+            l = balancear(l, buscarDescendente(l));
             break;
         case 3:
             printf("Digite o valor: ");
@@ -45,7 +45,7 @@ int main(){
             printf("Profundidade: %i\n", profundidade(l, i));
             break;
         case 7:
-            if(teste_AVL(l) != 0) printf("Arvore nao AVL.\n");
+            if(testeAVL(l) != 0) printf("Arvore nao AVL.\n");
             else printf("Arvore AVL.\n");
             break;
         default:

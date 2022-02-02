@@ -2,6 +2,19 @@
 #include <stdio.h>
 #include "binaryTreeHead.h"
 
+void imprime(raiz *l){
+    if(l == NULL) return;
+    printf("%i\n", l->valor);    
+    imprime(l->esq);
+    imprime(l->dir);
+}
+
+int testeAVL(raiz *l){
+    if(l == NULL) return 0;
+    else if(abs(altura(l->esq)-altura(l->dir)) > 1) return 1;
+    else return (testeAVL(l->esq)+testeAVL(l->dir));
+}
+
 int altura(raiz *l){
     int h = 0;
     if(l == NULL) return -1;
@@ -37,22 +50,21 @@ raiz *buscar(raiz *l, int valor){
     return NULL;
 }
 
-raiz *buscar_pai(raiz *l, int valor){
+raiz *buscarPai(raiz *l, int valor){ 
     if(l == NULL) return NULL;
     else if(l->valor == valor) return l;
     else if(valor < l->valor && l->esq != NULL){
         if(l->esq->valor == valor) return l;
-        else return buscar_pai(l->esq, valor);
+        else return buscarPai(l->esq, valor);
     }
     else if(valor > l->valor && l->dir != NULL){
         if(l->dir->valor == valor) return l;
-        else return buscar_pai(l->dir, valor);
+        else return buscarPai(l->dir, valor);
     }
-    else printf("Valor nao encontrado.\n");
     return NULL;
 }
 
-raiz *buscar_descendente(raiz *node){
+raiz *buscarDescendente(raiz *node){
     while(node->esq != NULL || node->dir != NULL){
         node->bal = altura(node->esq)-altura(node->dir);
         if(node->bal == 0) break;
@@ -84,53 +96,53 @@ raiz *insere(raiz *l, int valor){
 
 raiz *balancear(raiz *l, raiz *node){
     node->bal = altura(node->esq)-altura(node->dir);
-    node = buscar_pai(l, node->valor);
-    raiz *p = buscar_pai(l, node->valor);
+    node = buscarPai(l, node->valor);
+    raiz *p = buscarPai(l, node->valor);
     //É necessário se percorrer a àrvore a partir do pai do nó qual se deseja rotacionar
     //pois quando houver rotação o nó pai terá que apontar para seu novo nó filho
-    while(node != l || p != NULL){
+    while(1){
         node->bal = altura(node->esq)-altura(node->dir);
         if(node->bal >= 2){
             if(node->esq != NULL){
                 if(node->esq->bal >= 0){
-                    if(p == node) p = rotaciona_dir(node);
-                    else if(p->esq == node) p->esq = rotaciona_dir(node);
-                    else p->dir = rotaciona_dir(node);
+                    if(p == node) p = rotacionaDir(node);
+                    else if(p->esq == node) p->esq = rotacionaDir(node);
+                    else p->dir = rotacionaDir(node);
                 }
                 else{
-                    node->esq = rotaciona_esq(node->esq);
-                    if(p == node) p = rotaciona_dir(node);
-                    else if(p->esq == node) p->esq = rotaciona_dir(node);
-                    else p->dir = rotaciona_dir(node);
+                    node->esq = rotacionaEsq(node->esq);
+                    if(p == node) p = rotacionaDir(node);
+                    else if(p->esq == node) p->esq = rotacionaDir(node);
+                    else p->dir = rotacionaDir(node);
                 }
             }
-            else node->esq = rotaciona_dir(node->esq);
+            else node->esq = rotacionaDir(node->esq);
         }
         else if(node->bal <= -2){
             if(node->dir != NULL){
                 if(node->dir->bal <= 0){
-                    if(p == node) p = rotaciona_esq(node);
-                    else if(p->esq == node) p->esq = rotaciona_esq(node);
-                    else p->dir = rotaciona_esq(node);
+                    if(p == node) p = rotacionaEsq(node);
+                    else if(p->esq == node) p->esq = rotacionaEsq(node);
+                    else p->dir = rotacionaEsq(node);
                 }
                 else{
-                    node->dir = rotaciona_dir(node->dir);
-                    if(p == node) p = rotaciona_esq(node);
-                    else if(p->esq == node) p->esq = rotaciona_esq(node);
-                    else p->dir = rotaciona_esq(node);
+                    node->dir = rotacionaDir(node->dir);
+                    if(p == node) p = rotacionaEsq(node);
+                    else if(p->esq == node) p->esq = rotacionaEsq(node);
+                    else p->dir = rotacionaEsq(node);
                 }
             }
-            else node->esq = rotaciona_dir(node->esq);
+            else node->esq = rotacionaDir(node->esq);
         }
         if(node == l) break;
         node = p;
-        p = buscar_pai(l, p->valor);
+        p = buscarPai(l, p->valor);
     }
     return p;
 }
 
 raiz *remover(raiz *l, int valor){
-    raiz *p = buscar_pai(l, valor);
+    raiz *p = buscarPai(l, valor);
     if(p == NULL) return NULL;
     else if(p->valor == valor) l = remover_node(p);
     else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
@@ -138,7 +150,7 @@ raiz *remover(raiz *l, int valor){
     return l;
 }
 
-raiz *remover_node(raiz *node){
+raiz *removerNode(raiz *node){
     raiz *f, *p; // o ponteiro *p aponta para o pai do nó que queremos mexer e *f para algum dos nós filhos de *node
     if(node->esq == NULL && node->dir == NULL){
         free(node);
@@ -171,20 +183,7 @@ raiz *remover_node(raiz *node){
     return f;
 }
 
-void imprime(raiz *l){
-    if(l == NULL) return;
-    printf("%i\n", l->valor);    
-    imprime(l->esq);
-    imprime(l->dir);
-}
-
-int teste_AVL(raiz *l){
-    if(l == NULL) return 0;
-    else if(abs(altura(l->esq)-altura(l->dir)) > 1) return 1;
-    else return (teste_AVL(l->esq)+teste_AVL(l->dir));
-}
-
-raiz *rotaciona_esq(raiz *x){
+raiz *rotacionaEsq(raiz *x){
     if(x == NULL) return NULL;
     raiz *y = x->dir;
     x->dir = y->esq;
@@ -192,7 +191,7 @@ raiz *rotaciona_esq(raiz *x){
     return y;
 }
 
-raiz *rotaciona_dir(raiz *x){
+raiz *rotacionaDir(raiz *x){
     if(x == NULL) return NULL;
     raiz *y = x->esq;
     x->esq = y->dir;
