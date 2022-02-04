@@ -21,6 +21,7 @@ tarefa *removerTarefa(tarefa *l, int idRemover);
 tarefa *alterarTarefa(tarefa *l, int idAlterar);
 void verTarefas(tarefa *l);
 int dataAnterior(tempo a, tempo b);
+int dataPassada(tempo a);
 void indicarTarefa(tarefa *l);
 int tamanhoTarefas(tarefa *l);
 tarefa *mergeSort(tarefa *l);

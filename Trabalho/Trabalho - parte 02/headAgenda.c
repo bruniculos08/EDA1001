@@ -138,6 +138,9 @@ void verTarefas(tarefa *l){
     while (lista != NULL){
         printf("%s\n", lista->dados.nome);
         printf("ID: %i\n", lista->id);
+        printf("Duracao: %i\n", lista->dados.duracao);
+        printf("Data: %i/%i/%i %i:%i\n", lista->dados.deadline.dia, lista->dados.deadline.mes, lista->dados.deadline.ano, lista->dados.deadline.hora, lista->dados.deadline.minuto);
+        printf("Prioridade: %i\n", lista->dados.prioridade);
         lista = lista->next;
     }
 }
@@ -211,22 +214,45 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
                 strcpy(lista->dados.nome, nome);
                 break;
             case 2:
-                printf("Digite a nova duracao: ");
-                scanf("%i", &duracao);
+                do
+                {
+                    printf("Digite a nova duracao: ");
+                    scanf("%i", &duracao);
+                } while (duracao <= 0);
+                
                 lista->dados.duracao = duracao;
                 break;
             case 3:
-                printf("Digite o novo ano: ");
-                scanf("%i", &deadline.ano);
-                printf("Digite o novo mes: ");
-                scanf("%i", &deadline.mes);
-                printf("Digite o novo dia: ");
-                scanf("%i", &deadline.dia);
-                printf("Digite a nova hora: ");
-                scanf("%i", &deadline.hora);
-                printf("Digite o novo minuto: ");
-                scanf("%i", &deadline.minuto);
-                lista->dados.deadline = deadline;
+                do
+                {
+                    printf("Digite o novo ano: ");
+                    scanf("%i", &deadline.ano);
+                } while (deadline.ano < 0);
+                
+                do
+                {
+                    printf("Digite o novo mes: ");
+                    scanf("%i", &deadline.mes);
+                } while (deadline.mes <= 0 || deadline.mes > 12);
+                
+                do
+                {
+                    printf("Digite o novo dia: ");
+                    scanf("%i", &deadline.dia);
+                } while (deadline.dia <= 0 || deadline.dia > 30);
+                
+                do
+                {
+                    printf("Digite a nova hora: ");
+                    scanf("%i", &deadline.hora);
+                } while (deadline.hora < 0 || deadline.hora > 23);
+                
+                do
+                {
+                    printf("Digite o novo minuto: ");
+                    scanf("%i", &deadline.minuto);
+                } while (deadline.minuto < 0 || deadline.minuto > 59);
+                
                 break;
             case 4:
                 printf("Digite a nova prioridade: ");
@@ -243,7 +269,13 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
     tarefa *newTarefa;
     newTarefa = (tarefa*)malloc(sizeof(tarefa));
     *newTarefa = *lista;
+    printf("%s\n", lista->dados.nome);
+    printf("ID: %i\n", lista->id);
+    printf("Duracao: %i\n", lista->dados.duracao);
+    printf("Data: %i/%i/%i %i:%i\n", lista->dados.deadline.dia, lista->dados.deadline.mes, lista->dados.deadline.ano, lista->dados.deadline.hora, lista->dados.deadline.minuto);
+    printf("Prioridade: %i\n", lista->dados.prioridade);
     l = removerTarefa(l, idAlterar);
+    newTarefa->next = NULL;
     l = insereTarefa(l, newTarefa);
     return l;
 }
@@ -333,4 +365,12 @@ tarefa *mergeSort(tarefa *l){
     //verTarefas(l2);
     sortedNew = merge(l1, l2);
     return sortedNew;
+}
+
+int dataPassada(tempo a){
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    if(tm.tm_year > a.ano) return 1;
+    else if(tm.tm_year < a.ano) return 0;
+    else if(tm.tm_mon > a.mes) return 1;
 }
