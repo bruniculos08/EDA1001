@@ -9,6 +9,7 @@ tarefa *geraTarefa(tarefa *l){
     lista = l;
     tarefa *newTarefa;
     newTarefa = (tarefa *)malloc(sizeof(tarefa));
+    newTarefa->next = NULL;
     do
     {
         printf("Digite a hora: ");
@@ -40,7 +41,7 @@ tarefa *geraTarefa(tarefa *l){
             printf("Valor de dia invalido.\n");
         }
         
-    } while (newTarefa->dados.deadline.dia < 0 || newTarefa->dados.deadline.dia > 30);
+    } while (newTarefa->dados.deadline.dia <= 0 || newTarefa->dados.deadline.dia > 30);
     
         do
     {
@@ -52,7 +53,7 @@ tarefa *geraTarefa(tarefa *l){
             printf("Valor de mes invalido.\n");
         }
         
-    } while (newTarefa->dados.deadline.mes < 0 || newTarefa->dados.deadline.mes > 12);
+    } while (newTarefa->dados.deadline.mes <= 0 || newTarefa->dados.deadline.mes > 12);
 
         do
     {
@@ -72,7 +73,7 @@ tarefa *geraTarefa(tarefa *l){
         {
             printf("Valor de duracao invalido.\n");
         }    
-    } while (newTarefa->dados.duracao < 0);
+    } while (newTarefa->dados.duracao <= 0);
 
     printf("Digite a prioridade: ");
     scanf("%i", &newTarefa->dados.prioridade);
@@ -121,57 +122,11 @@ int dataAnterior(tempo a, tempo b){
 //^função valida tarefa e exibir dados tanto verTarefas quanto em alterarTarefa
 tarefa *insereTarefa(tarefa *l, tarefa *newTarefa){
     tarefa *lista;
-    tarefa *a;
     lista = l;
-    a = NULL;
-    if (lista == NULL){
-        printf("Inserindo tarefa em lista vazia\n");
-        newTarefa->next = NULL;
-        return newTarefa;
-    }
-    while(lista != NULL){
-        printf("Inserindo tarefa\n");
-        printf("Data anterior: %i\n", dataAnterior(newTarefa->dados.deadline, lista->dados.deadline));
-
-        if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && lista->next == NULL){
-            printf("Inserindo tarefa 1\n");
-            lista->next = newTarefa;
-            newTarefa->next = NULL;
-            return l;
-        }
-        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 1 && lista->next == NULL){
-            printf("Inserindo tarefa 2\n");
-            newTarefa->next = lista;
-            return newTarefa;
-        }
-        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 2 && dataAnterior(newTarefa->dados.deadline, lista->next->dados.deadline) == 1){
-            printf("Inserindo tarefa 3\n");
-            newTarefa->next = lista->next;
-            lista->next = newTarefa;
-            return l;
-        }
-        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 1 && a == NULL){
-           printf("Inserindo tarefa 4 \n");
-           newTarefa->next = lista;
-            return newTarefa;
-        }
-        else if (dataAnterior(newTarefa->dados.deadline, lista->dados.deadline) == 0){
-            printf("Inserindo iguais.\n");
-            newTarefa->next = lista->next;
-            lista->next = newTarefa;
-            return l;
-        }
-        
-        if (lista->next == NULL){
-            printf("Inserindo tarefa 5\n");
-           lista->next = newTarefa;
-           return l;
-        }
-        a = lista;
-        lista = lista->next;
-    }
-    printf("Inserindo tarefa return\n");
-    return newTarefa;
+    if(l == NULL) return newTarefa;
+    while(lista->next != NULL) lista = lista->next;
+    lista->next = newTarefa;
+    return l;
 }
 
 void verTarefas(tarefa *l){
@@ -307,4 +262,75 @@ int tamanhoTarefas(tarefa *l) {
         lista = lista->next;
     }
     return n;
+}
+
+tarefa *split(tarefa *l){
+    tarefa *p;
+    tarefa *p1;
+    tarefa *p2;
+    if(l != NULL && l->next == NULL) return l;
+    p1 = l;
+    p = l;
+    if(l != NULL) p2 = l->next;
+    else p2 = NULL;
+    while(p2 != NULL && p2->next != NULL){
+        p1 = p1->next;
+        p2 = p2->next->next;
+    }
+    p = p1->next;
+    p1->next = NULL;
+    return p;
+}
+
+tarefa *merge(tarefa *l1, tarefa *l2){
+    tarefa *sortedNew;
+    tarefa *a;
+    a = NULL;
+    sortedNew = NULL;
+    while(l1 != NULL && l2 != NULL){
+        printf("While 01.\n");
+        if(dataAnterior(l1->dados.deadline, l2->dados.deadline) <= 1){
+            a = l1->next;
+            l1->next = NULL;
+            sortedNew = insereTarefa(sortedNew, l1);
+            l1 = a;
+            //free(a);
+        }
+        else{
+            a = l2->next;
+            l2->next = NULL;
+            sortedNew = insereTarefa(sortedNew, l2);
+            l2 = a;
+            //free(a);
+        }
+    }
+    while(l1 != NULL){
+        a = l1->next;
+        l1->next = NULL;
+        sortedNew = insereTarefa(sortedNew, l1);
+        l1 = a;
+    }
+    while(l2 != NULL){
+        a = l2->next;
+        l2->next = NULL;
+        sortedNew = insereTarefa(sortedNew, l2);
+        l2 = a;
+    }
+    return sortedNew;
+}
+
+tarefa *mergeSort(tarefa *l){
+    tarefa *l1;
+    tarefa *l2;
+    tarefa *middle;
+    tarefa *sortedNew;
+    //verTarefas(l);
+    if(l == NULL || l->next == NULL) return l;
+    middle = split(l);
+    l1 = mergeSort(l);
+    l2 = mergeSort(middle);
+    //verTarefas(l1);
+    //verTarefas(l2);
+    sortedNew = merge(l1, l2);
+    return sortedNew;
 }

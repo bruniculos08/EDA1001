@@ -15,7 +15,6 @@ struct Tarefa {
     reg dados;
     tarefa *next;
 };
-
 tarefa *geraTarefa(tarefa *l);
 tarefa *insereTarefa(tarefa *l, tarefa *novaTarefa);
 tarefa *removerTarefa(tarefa *l, int idRemover);
@@ -24,5 +23,5 @@ void verTarefas(tarefa *l);
 int dataAnterior(tempo a, tempo b);
 void indicarTarefa(tarefa *l);
 int tamanhoTarefas(tarefa *l);
-void salvarTarefas(tarefa *l);
-tarefa *lerTarefasSalvas(tarefa *l);
+tarefa *mergeSort(tarefa *l);
+tarefa *split(tarefa *l);

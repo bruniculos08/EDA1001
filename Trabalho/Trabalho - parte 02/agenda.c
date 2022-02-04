@@ -30,6 +30,7 @@ int main(void) {
             case 1:
                 lista = insereTarefa(lista, geraTarefa(lista));
                 fflush(stdin);
+                lista = mergeSort(lista);
                 break;
             case 2:
                 verTarefas(lista);
@@ -42,6 +43,7 @@ int main(void) {
                 printf("Digite o ID da tarefa a ser removida: ");
                 scanf("%i", &j);
                 lista = removerTarefa(lista, j);
+                lista = mergeSort(lista);
                 break;
             case 4:
                 if (lista == NULL)
@@ -53,6 +55,7 @@ int main(void) {
                 scanf("%i", &j);
                 lista = alterarTarefa(lista, j);
                 fflush(stdin);
+                lista = mergeSort(lista);
                 break;
             case 5:
                 indicarTarefa(lista);
