@@ -66,5 +66,6 @@ int main(void) {
                 printf("Opcao invalida.\n");
                 break;
         }
+        lista = atualizarTarefas(lista);
     } while (n!=0);
 }

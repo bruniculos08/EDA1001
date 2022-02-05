@@ -373,4 +373,26 @@ int dataPassada(tempo a){
     if(tm.tm_year > a.ano) return 1;
     else if(tm.tm_year < a.ano) return 0;
     else if(tm.tm_mon > a.mes) return 1;
+    else if(tm.tm_mon < a.mes) return 0;
+    else if(tm.tm_mday > a.dia) return 1;
+    else if(tm.tm_mday < a.dia) return 0;
+    else if(tm.tm_hour > a.hora) return 1;
+    else if(tm.tm_hour < a.hora) return 0;
+    else if(tm.tm_min >= a.minuto) return 1;
+    else if(tm.tm_min < a.minuto) return 0;
+}
+
+tarefa *atualizarTarefas(tarefa *l){
+    tarefa *lista;
+    lista = l;
+    while(lista != NULL){
+        if(dataPassada(lista->dados.deadline) == 1){
+            tarefa *a;
+            a = lista->next;
+            l = removerTarefa(l, lista->id);
+            lista = a;
+        }
+        else lista = lista->next;
+    }
+    return l;
 }
