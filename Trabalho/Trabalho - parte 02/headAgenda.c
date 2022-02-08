@@ -10,6 +10,7 @@ tarefa *geraTarefa(tarefa *l){
     tarefa *newTarefa;
     newTarefa = (tarefa *)malloc(sizeof(tarefa));
     newTarefa->next = NULL;
+    // quanto a data...
     do
     {
         printf("Digite a hora: ");
@@ -21,7 +22,7 @@ tarefa *geraTarefa(tarefa *l){
         
     } while (newTarefa->dados.deadline.hora < 0 && newTarefa->dados.deadline.hora > 23);
 
-        do
+    do
     {
         printf("Digite o minuto: ");
         scanf("%i", &newTarefa->dados.deadline.minuto);
@@ -32,7 +33,7 @@ tarefa *geraTarefa(tarefa *l){
         
     } while (newTarefa->dados.deadline.minuto < 0 || newTarefa->dados.deadline.minuto > 59);
     
-        do
+    do
     {
         printf("Digite o dia: ");
         scanf("%i", &newTarefa->dados.deadline.dia);
@@ -43,7 +44,7 @@ tarefa *geraTarefa(tarefa *l){
         
     } while (newTarefa->dados.deadline.dia <= 0 || newTarefa->dados.deadline.dia > 30);
     
-        do
+    do
     {
         printf("Digite o mes: ");
         scanf("%i", &newTarefa->dados.deadline.mes);
@@ -55,7 +56,7 @@ tarefa *geraTarefa(tarefa *l){
         
     } while (newTarefa->dados.deadline.mes <= 0 || newTarefa->dados.deadline.mes > 12);
 
-        do
+    do
     {
         printf("Digite o ano: ");
         scanf("%i", &newTarefa->dados.deadline.ano);
@@ -64,16 +65,61 @@ tarefa *geraTarefa(tarefa *l){
             printf("Valor de ano invalido.\n");
         }
     } while (newTarefa->dados.deadline.ano < 0);
-
-        do
+    // quanto a duracao...
+    do
     {
-        printf("Digite a duracao: ");
-        scanf("%i", &newTarefa->dados.duracao);
-        if (newTarefa->dados.duracao < 0)
+        printf("Digite a quantidade de minutos de duracao: ");
+        scanf("%i", &newTarefa->dados.duracao.minuto);
+        if (newTarefa->dados.deadline.minuto < 0 || newTarefa->dados.deadline.minuto > 59)
         {
-            printf("Valor de duracao invalido.\n");
-        }    
-    } while (newTarefa->dados.duracao <= 0);
+            printf("Valor de minuto invalido.\n");
+        }
+        
+    } while (newTarefa->dados.deadline.minuto < 0 || newTarefa->dados.deadline.minuto > 59);
+    
+    do
+    {
+        printf("Digite a quantidade de horas de duracao: ");
+        scanf("%i", &newTarefa->dados.duracao.hora);
+        if (newTarefa->dados.duracao.hora < 0 && newTarefa->dados.duracao.hora > 23)
+        {
+            printf("Valor de hora invalido.\n");
+        }
+        
+    } while (newTarefa->dados.duracao.hora < 0 && newTarefa->dados.duracao.hora > 23);
+
+    do
+    {
+        printf("Digite a quantidade de dias de duracao: ");
+        scanf("%i", &newTarefa->dados.duracao.dia);
+        if (newTarefa->dados.duracao.dia < 0 || newTarefa->dados.duracao.dia > 30)
+        {
+            printf("Valor de dia invalido.\n");
+        }
+        
+    } while (newTarefa->dados.duracao.dia < 0 || newTarefa->dados.duracao.dia > 30);
+    
+    do
+    {
+        printf("Digite a quantidade de meses de duracao: ");
+        scanf("%i", &newTarefa->dados.duracao.mes);
+
+        if (newTarefa->dados.duracao.mes < 0 || newTarefa->dados.duracao.mes > 12)
+        {
+            printf("Valor de mes invalido.\n");
+        }
+        
+    } while (newTarefa->dados.duracao.mes < 0 || newTarefa->dados.duracao.mes > 12);
+
+    do
+    {
+        printf("Digite a quantidade de anos de duracao: ");
+        scanf("%i", &newTarefa->dados.duracao.ano);
+        if (newTarefa->dados.duracao.ano < 0)
+        {
+            printf("Valor de ano invalido.\n");
+        }
+    } while (newTarefa->dados.duracao.ano < 0);
 
     printf("Digite a prioridade: ");
     scanf("%i", &newTarefa->dados.prioridade);
@@ -138,7 +184,7 @@ void verTarefas(tarefa *l){
     while (lista != NULL){
         printf("%s\n", lista->dados.nome);
         printf("ID: %i\n", lista->id);
-        printf("Duracao: %i\n", lista->dados.duracao);
+        printf("Duracao: %i minutos, %i horas, %i dias, %i meses e %i anos.\n", lista->dados.duracao.minuto, lista->dados.duracao.hora, lista->dados.duracao.dia, lista->dados.duracao.mes, lista->dados.duracao.ano);
         printf("Data: %i/%i/%i %i:%i\n", lista->dados.deadline.dia, lista->dados.deadline.mes, lista->dados.deadline.ano, lista->dados.deadline.hora, lista->dados.deadline.minuto);
         printf("Prioridade: %i\n", lista->dados.prioridade);
         lista = lista->next;
@@ -203,7 +249,7 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
         printf("Digite o elemento a ser alterado:\n1- Nome\n2- Duracao\n3- Deadline\n4- Prioridade\n0- Sair\n");
         scanf("%i", &n);
         char nome[50];
-        int duracao;
+        tempo duracao;
         tempo deadline;
         int prioridade;
 
@@ -216,10 +262,34 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
             case 2:
                 do
                 {
-                    printf("Digite a nova duracao: ");
-                    scanf("%i", &duracao);
-                } while (duracao <= 0);
+                    printf("Digite a nova quantidade de anos: ");
+                    scanf("%i", &duracao.ano);
+                } while (duracao.ano < 0);
                 
+                do
+                {
+                    printf("Digite a nova quantidade de meses: ");
+                    scanf("%i", &duracao.mes);
+                } while (duracao.mes <= 0 || duracao.mes > 12);
+                
+                do
+                {
+                    printf("Digite a nova quantidade de dias: ");
+                    scanf("%i", &duracao.dia);
+                } while (duracao.dia <= 0 || duracao.dia > 30);
+                
+                do
+                {
+                    printf("Digite a nova quantidade de horas: ");
+                    scanf("%i", &duracao.hora);
+                } while (duracao.hora < 0 || duracao.hora > 23);
+                
+                do
+                {
+                    printf("Digite o novo minuto: ");
+                    printf("Digite a nova quantidade de minutos: ");
+                    scanf("%i", &duracao.minuto);
+                } while (duracao.minuto < 0 || duracao.minuto > 59);
                 lista->dados.duracao = duracao;
                 break;
             case 3:
@@ -280,8 +350,19 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar){
     return l;
 }
 
-void indicarTarefa(tarefa *l) {
-
+tarefa *indicarTarefa(tarefa *l) {
+    //estando sobre uma tarefa de data x e duracao y, indicar esta se a proxima de mesma data x tiver uma duracao z tal que z >= y
+    if(l == NULL || l->next == NULL) return l;
+    tarefa *lista;
+    lista = l->next;
+    tarefa *selecionada;
+    selecionada = l;
+    while(tempoRank(&lista->dados.deadline)-tempoRank(&selecionada->dados.deadline) < tempoRank(&selecionada->dados.duracao)){
+        if(selecionada->dados.prioridade <= lista->dados.prioridade) selecionada = lista;
+        lista = lista->next;
+        if(lista == NULL) break;
+    }
+    return selecionada;
 }
 
 int tamanhoTarefas(tarefa *l) {
@@ -370,10 +451,10 @@ tarefa *mergeSort(tarefa *l){
 int dataPassada(tempo a){
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
-    if(tm.tm_year > a.ano) return 1;
-    else if(tm.tm_year < a.ano) return 0;
-    else if(tm.tm_mon > a.mes) return 1;
-    else if(tm.tm_mon < a.mes) return 0;
+    if(tm.tm_year + 1900 > a.ano) return 1;
+    else if(tm.tm_year + 1900 < a.ano) return 0;
+    else if(tm.tm_mon + 1 > a.mes) return 1;
+    else if(tm.tm_mon + 1 < a.mes) return 0;
     else if(tm.tm_mday > a.dia) return 1;
     else if(tm.tm_mday < a.dia) return 0;
     else if(tm.tm_hour > a.hora) return 1;
@@ -387,6 +468,7 @@ tarefa *atualizarTarefas(tarefa *l){
     lista = l;
     while(lista != NULL){
         if(dataPassada(lista->dados.deadline) == 1){
+            printf("Here.\n");
             tarefa *a;
             a = lista->next;
             l = removerTarefa(l, lista->id);
@@ -395,4 +477,11 @@ tarefa *atualizarTarefas(tarefa *l){
         else lista = lista->next;
     }
     return l;
+}
+
+float tempoRank(tempo *a){
+    float i;
+    i = a->dia + 30*a->mes + 365*a->ano;
+    i += a->hora/24 + a->minuto/86400;
+    return i;
 }

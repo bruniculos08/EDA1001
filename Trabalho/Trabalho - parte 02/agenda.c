@@ -8,6 +8,7 @@ int main(void) {
     int n, j;
     tarefa *lista;
     lista = NULL;
+    tarefa *node;
     //lista = (tarefa*)malloc(sizeof(tarefa));
     do
     {
@@ -31,6 +32,7 @@ int main(void) {
                 lista = insereTarefa(lista, geraTarefa(lista));
                 fflush(stdin);
                 lista = mergeSort(lista);
+                lista = atualizarTarefas(lista);
                 break;
             case 2:
                 verTarefas(lista);
@@ -58,7 +60,8 @@ int main(void) {
                 lista = mergeSort(lista);
                 break;
             case 5:
-                indicarTarefa(lista);
+                node = indicarTarefa(lista);
+                printf("Tarefa indicada: %s\n", node->dados.nome);
                 break;
             case 0:
                 break;

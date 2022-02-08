@@ -6,7 +6,7 @@ struct Tempo {
 };
 struct Reg {
     char nome[50];
-    int duracao; //^ trocar depois de int para tempo (quantidade de minutos, horas, dias, meses e anos)
+    tempo duracao; //^ trocar depois de int para tempo (quantidade de minutos, horas, dias, meses e anos)
     tempo deadline;
     int prioridade;
 };
@@ -23,8 +23,8 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar);
 void verTarefas(tarefa *l);
 int dataAnterior(tempo a, tempo b);
 int dataPassada(tempo a);
-int tempoDias(tempo a);
-void indicarTarefa(tarefa *l);
+float tempoRank(tempo *a); 
 int tamanhoTarefas(tarefa *l);
 tarefa *mergeSort(tarefa *l);
 tarefa *split(tarefa *l);
+tarefa *indicarTarefa(tarefa *l);
