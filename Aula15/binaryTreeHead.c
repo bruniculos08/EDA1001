@@ -69,7 +69,41 @@ int balanceamento(raiz *l){
     return i;
 }
 
-raiz *balancear(raiz *l){}
+raiz *balancear(raiz *node){
+        if(balanceamento(node) >= 2){
+            if(node->esq != NULL){
+                if(balanceamento(node->esq) >= 0){
+                    if(p == node) p = rotacionaDir(node);
+                    else if(p->esq == node) p->esq = rotacionaDir(node);
+                    else p->dir = rotacionaDir(node);
+                }
+                else{
+                    node->esq = rotacionaEsq(node->esq);
+                    if(p == node) p = rotacionaDir(node);
+                    else if(p->esq == node) p->esq = rotacionaDir(node);
+                    else p->dir = rotacionaDir(node);
+                }
+            }
+            else node->esq = rotacionaDir(node->esq);
+        }
+        else if(balanceamento(node) <= -2){
+            if(node->dir != NULL){
+                if(balanceamento(node->dir) <= 0){
+                    if(p == node) p = rotacionaEsq(node);
+                    else if(p->esq == node) p->esq = rotacionaEsq(node);
+                    else p->dir = rotacionaEsq(node);
+                }
+                else{
+                    node->dir = rotacionaDir(node->dir);
+                    if(p == node) p = rotacionaEsq(node);
+                    else if(p->esq == node) p->esq = rotacionaEsq(node);
+                    else p->dir = rotacionaEsq(node);
+                }
+            }
+            else node->esq = rotacionaDir(node->esq);
+        }
+        return node;
+}
 
 raiz *remover(raiz *l, int valor){
     raiz *f, *p;
