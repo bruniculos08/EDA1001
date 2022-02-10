@@ -69,40 +69,29 @@ int balanceamento(raiz *l){
     return i;
 }
 
-raiz *balancear(raiz *node){
-        if(balanceamento(node) >= 2){
-            if(node->esq != NULL){
-                if(balanceamento(node->esq) >= 0){
-                    if(p == node) p = rotacionaDir(node);
-                    else if(p->esq == node) p->esq = rotacionaDir(node);
-                    else p->dir = rotacionaDir(node);
-                }
-                else{
-                    node->esq = rotacionaEsq(node->esq);
-                    if(p == node) p = rotacionaDir(node);
-                    else if(p->esq == node) p->esq = rotacionaDir(node);
-                    else p->dir = rotacionaDir(node);
-                }
-            }
-            else node->esq = rotacionaDir(node->esq);
+raiz *balancear(raiz *l){
+    if(balanceamento(l) >= 2){
+        if(balanceamento(l->esq) >= 0) return rotacionaDir(l);
+        else{
+            l->esq = rotacionaEsq(l);
+            return rotacionaDir(l);
         }
-        else if(balanceamento(node) <= -2){
-            if(node->dir != NULL){
-                if(balanceamento(node->dir) <= 0){
-                    if(p == node) p = rotacionaEsq(node);
-                    else if(p->esq == node) p->esq = rotacionaEsq(node);
-                    else p->dir = rotacionaEsq(node);
-                }
-                else{
-                    node->dir = rotacionaDir(node->dir);
-                    if(p == node) p = rotacionaEsq(node);
-                    else if(p->esq == node) p->esq = rotacionaEsq(node);
-                    else p->dir = rotacionaEsq(node);
-                }
-            }
-            else node->esq = rotacionaDir(node->esq);
+    }
+    else if(balanceamento(l) <= -2){
+        if(balanceamento(l->dir) <= 0) return rotacionaEsq(l);
+        else{
+            l->dir = rotacionaDir(l->dir);
+            return rotacionaEsq(l);
         }
-        return node;
+    }
+    else return l;
+}
+
+raiz *balancearArvore(raiz *l, int valor){
+    //balancear de baixo pra cima
+    if(l->valor < valor) l->esq = balancearArvore(l->esq, valor);
+    else if(l->valor > valor) l->dir = balancearArvore(l->dir, valor);
+    return balancear(l);
 }
 
 raiz *remover(raiz *l, int valor){

@@ -18,3 +18,4 @@ raiz *buscarDescendente(raiz *node);
 raiz *rotacionaEsq(raiz *x);
 raiz *rotacionaDir(raiz *x);
 raiz *balancear(raiz *l);
+raiz *balancearArvore(raiz *l, int valor);
