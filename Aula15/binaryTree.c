@@ -18,13 +18,12 @@ int main(){
             printf("Digite o valor: ");
             scanf("%i", &i);
             l = insere(l, i);
-            l = balancear(l, buscar(l, i));
+            //l = balancearArvore(l, i);
             break;
         case 2:
             printf("Digite o valor: ");
             scanf("%i", &i);
             l = remover(l, i);
-            l = balancear(l, buscarDescendente(l));
             break;
         case 3:
             printf("Digite o valor: ");

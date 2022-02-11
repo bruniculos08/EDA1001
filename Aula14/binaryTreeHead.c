@@ -144,9 +144,9 @@ raiz *balancear(raiz *l, raiz *node){
 raiz *remover(raiz *l, int valor){
     raiz *p = buscarPai(l, valor);
     if(p == NULL) return NULL;
-    else if(p->valor == valor) l = remover_node(p);
-    else if(p->esq->valor == valor) p->esq = remover_node(p->esq);
-    else p->dir = remover_node(p->dir);
+    else if(p->valor == valor) l = removerNode(p);
+    else if(p->esq->valor == valor) p->esq = removerNode(p->esq);
+    else p->dir = removerNode(p->dir);
     return l;
 }
 

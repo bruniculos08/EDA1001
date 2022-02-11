@@ -70,28 +70,31 @@ int balanceamento(raiz *l){
 }
 
 raiz *balancear(raiz *l){
-    if(balanceamento(l) >= 2){
-        if(balanceamento(l->esq) >= 0) return rotacionaDir(l);
+    if(l == NULL) return l;
+    else if(balanceamento(l) >= 2){
+        if(l->esq != NULL && balanceamento(l->esq) >= 0) l = rotacionaDir(l);
         else{
-            l->esq = rotacionaEsq(l);
-            return rotacionaDir(l);
+            l->esq = rotacionaEsq(l->esq);
+            l = rotacionaDir(l);
         }
     }
     else if(balanceamento(l) <= -2){
-        if(balanceamento(l->dir) <= 0) return rotacionaEsq(l);
+        if(l->dir != NULL && balanceamento(l->dir) <= 0) l = rotacionaEsq(l);
         else{
             l->dir = rotacionaDir(l->dir);
-            return rotacionaEsq(l);
+            l = rotacionaEsq(l);
         }
     }
-    else return l;
+    return l;
 }
 
 raiz *balancearArvore(raiz *l, int valor){
     //balancear de baixo pra cima
-    if(l->valor < valor) l->esq = balancearArvore(l->esq, valor);
+    if(l->valor == valor) return balancear(l);
+    else if(l->valor < valor) l->esq = balancearArvore(l->esq, valor);
     else if(l->valor > valor) l->dir = balancearArvore(l->dir, valor);
-    return balancear(l);
+    l = balancear(l);
+    return l;
 }
 
 raiz *remover(raiz *l, int valor){
@@ -99,14 +102,29 @@ raiz *remover(raiz *l, int valor){
     f = l;
     p = f;
     while(f->valor != valor && f != NULL){
+        printf("Here.\n");
         p = f;
-        if(f->valor < valor) f = f->esq;
+        if(f->valor > valor) f = f->esq;
         else f = f->dir;
     }
-    if(f == NULL) printf("Valor nao encontrado.\n");
-    else if(p == f) l = remover_node(p);
-    else if(p->esq == f) p->esq = remover_node(f);
-    else p->dir = remover_node(f);
+    if(f == NULL){
+        printf("Valor nao encontrado.\n");
+        return l;
+    }
+    if(p == f){
+        l = removerNode(p);
+        l = balancearArvore(l, l->valor);
+    }
+    else if(p->esq == f){
+        p->esq = removerNode(f);
+        if(p->esq != NULL) l = balancearArvore(l, p->esq->valor);
+        else l = balancearArvore(l, p->valor);
+    }
+    else{
+        p->dir = removerNode(f);
+        if(p->dir != NULL) l = balancearArvore(l, p->dir->valor);
+        else l = balancearArvore(l, p->valor);
+    }
     // fazer um while indo até o novo nó e balanceando todos pelo caminho
     return l;
 }
