@@ -89,8 +89,30 @@ node *truque(node *l){
     l4 = split(l3);
     node *newList;
     newList = merge(merge(l4, l3), merge(l2, l1));
-    printf("%i,", newList->number);
-    if(newList->number == resposta) printf(" acertou\n");
-    else printf(" errou\n");
+    lista = newList;
+    l1 = newList;
+    l2 = split(l1);
+    while(lista->next != NULL) lista = lista->next;
+    int k = lista->number;
+    newList = merge(l1, l2);
+    lista = newList;
+    for(int i = 0; i < k; i++) lista = lista->next;
+    printf("%i, ", lista->number);
+    if(lista->number == resposta) printf("acertou.\n");
+    else printf("errou.\n");
     return newList;
+}
+
+void imprimir(node *l){
+    node *p;
+    p = l;
+    if (p == NULL){
+        printf("Lista vazia.\n");
+        return;
+    }
+    while(p != NULL){
+        printf("%i ", p->number);
+        p = p->next;
+    };
+    printf("\n");
 }

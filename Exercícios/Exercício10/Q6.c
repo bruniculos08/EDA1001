@@ -26,6 +26,9 @@ int main(){
             scanf("%i", &i);
             lista = remover(lista, i);
             break;
+        case 4:
+            imprimir(lista);
+            break;
         default:
             break;
         }
