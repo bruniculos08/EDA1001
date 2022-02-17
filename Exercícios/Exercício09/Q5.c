@@ -12,7 +12,6 @@ int main(){
     a->topo = NULL;
     do
     {   
-        printf("Digite a opcao desejada:\n1- inserir expressao\n2- inserir na pilha\n3- retirar da pilha\n4- imprimir pilha\n");
         scanf("%i", &i);
         switch (i)
         {

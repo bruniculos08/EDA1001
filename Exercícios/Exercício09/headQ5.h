@@ -9,5 +9,6 @@ struct Pilha {
     node *topo;
 };
 void imprimePilha(pilha *a);
+void sair(pilha *a);
 char retira(pilha *a, int *status);
 int insere(pilha *a, char dado);

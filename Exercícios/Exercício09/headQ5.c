@@ -40,15 +40,20 @@ void imprimePilha(pilha *a){
 
 void sair(pilha *a){
     pilha *M;
-    M = NULL;
+    M = (pilha *)malloc(sizeof(pilha));
+    M->topo = NULL;
     int i;
     char letter;
-    while(a != NULL){
+    while(a->topo != NULL){
         letter = retira(a, &i);
         if(letter == 'J') break;
+        insere(M, letter);
         printf("%c saiu de G e entrou em M\n", letter);
-        insere(a, letter);
     }
     printf("J saiu\n");
-    while(M != NULL){ }
+    while(M->topo != NULL){
+        letter = retira(M, &i);
+        insere(a, letter);
+        printf("%c saiu de M e entrou em G\n", letter);
+    }
 }
