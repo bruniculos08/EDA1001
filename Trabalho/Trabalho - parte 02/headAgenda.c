@@ -126,6 +126,7 @@ tarefa *geraTarefa(tarefa *l){
     printf("Digite o nome: ");
     scanf("%s", &newTarefa->dados.nome);    //^ usar gets()
     
+    srand(time(NULL));
     int randomNumber = rand() % 1000000;
     //^ usar srand(time(NULL)) depois
     if (lista != NULL){
