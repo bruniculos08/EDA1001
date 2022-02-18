@@ -480,9 +480,8 @@ tarefa *atualizarTarefas(tarefa *l){
     return l;
 }
 
-float tempoRank(tempo *a){
-    float i;
-    i = a->dia + 30*a->mes + 365*a->ano;
-    i += a->hora/24 + a->minuto/86400;
+long tempoRank(tempo *a){
+    long i;
+    i = a->minuto + 60*a->hora + 1440*a->dia + 43200*a->mes + 518400*a->ano;
     return i;
 }

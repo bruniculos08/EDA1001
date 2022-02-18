@@ -23,7 +23,7 @@ tarefa *alterarTarefa(tarefa *l, int idAlterar);
 void verTarefas(tarefa *l);
 int dataAnterior(tempo a, tempo b);
 int dataPassada(tempo a);
-float tempoRank(tempo *a); 
+long tempoRank(tempo *a); 
 int tamanhoTarefas(tarefa *l);
 tarefa *mergeSort(tarefa *l);
 tarefa *split(tarefa *l);
